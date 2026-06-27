@@ -1,9 +1,8 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
-    { "src": "^/$", "dest": "/index.html" },
-    { "src": "^/lp$", "dest": "/lp-principal.html" },
-    { "src": "^/indicacao$", "dest": "/indicacao.html" }
+  "rewrites": [
+    { "source": "/lp", "destination": "/lp-principal.html" },
+    { "source": "/indicacao", "destination": "/indicacao.html" }
   ]
 }
