@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Local TECH — Engenharia de Receita</title>
+<meta name="description" content="Assessoria de Crescimento Empresarial. Não entregamos consultoria. Entregamos lucro líquido e escala."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;--sur:rgba(255,255,255,.035);--bdr:rgba(255,255,255,.07);--bdr-h:rgba(123,54,20,.45);
+  --t1:#f0f0f0;--t2:#888;--t3:#444;--p:hsl(20,72%,28%);--pl:hsl(22,68%,42%);--ok:#22c55e;
+  --ff:'Sora',system-ui,sans-serif;--fi:'Playfair Display',serif;--r:12px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--bg);color:var(--t1);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 20%,#000 10%,transparent 80%);
+}
+.bg-glow{
+  position:fixed;top:-30%;left:50%;width:900px;height:700px;
+  background:radial-gradient(ellipse at center,rgba(123,54,20,.15) 0%,transparent 65%);
+  pointer-events:none;z-index:0;filter:blur(60px);transform:translateX(-50%);
+}
+#c{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+section{position:relative;z-index:1}
+nav,footer{position:relative;z-index:10}
+.wrap{max-width:1180px;margin:0 auto;padding:0 48px}
+
+/* TOKENS */
+.sec-lbl{display:block;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:56px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pl);background:rgba(123,54,20,.08);border:1px solid rgba(123,54,20,.18);padding:5px 14px;border-radius:999px;margin-bottom:28px}
+.eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--pl);flex-shrink:0}
+.ac{font-family:var(--fi);font-style:italic;font-weight:700;color:var(--pl)}
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);transition:border-color .3s var(--ease),background .3s var(--ease),transform .3s var(--ease)}
+.card:hover{border-color:var(--bdr-h);background:rgba(255,255,255,.05)}
+.chip{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid rgba(123,54,20,.18);color:rgba(123,54,20,.8);background:rgba(123,54,20,.06)}
+.rev{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rev.on{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+
+/* SHIMMER */
+@keyframes shimmer-sweep{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.shimmer{
+  background:linear-gradient(90deg,hsl(16,75%,14%) 0%,hsl(20,72%,28%) 25%,hsl(40,85%,52%) 50%,hsl(20,72%,28%) 75%,hsl(16,75%,14%) 100%);
+  background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;animation:shimmer-sweep 5s ease-in-out infinite;display:inline;
+}
+.hero-shine{position:relative;overflow:hidden}
+.hero-shine::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(110deg,transparent 30%,hsl(40,85%,52%,.28) 50%,transparent 70%);
+  transform:translateX(-100%);animation:hero-sweep 5s ease-in-out 1.4s infinite;mix-blend-mode:overlay;
+}
+@keyframes hero-sweep{0%{transform:translateX(-100%)}60%{transform:translateX(110%)}100%{transform:translateX(110%)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(5,5,5,.7);border-bottom:1px solid var(--bdr);transition:background .3s}
+.nav-i{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:1180px;margin:0 auto;padding:0 48px}
+.logo{font-size:.88rem;font-weight:800;letter-spacing:-.01em;text-decoration:none;color:var(--t1);cursor:pointer;background:none;border:none;font-family:var(--ff)}
+.logo em{font-style:normal;color:var(--pl)}
+.logo-sep{color:var(--bdr);margin:0 5px;font-weight:300}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:.78rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--t1)}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--p);color:#fff;padding:9px 20px;border-radius:8px;font-size:.75rem;font-weight:700;text-decoration:none;transition:all .25s var(--ease);cursor:pointer;border:none;font-family:var(--ff)}
+.nav-cta:hover{background:var(--pl);transform:translateY(-1px);box-shadow:0 8px 24px -4px rgba(123,54,20,.5)}
+.nav-ham{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;background:none;border:none}
+.nav-ham span{display:block;width:22px;height:2px;background:var(--t1);border-radius:2px;transition:.3s}
+.nav-mob{display:none;background:rgba(5,5,5,.96);border-bottom:1px solid var(--bdr);backdrop-filter:blur(20px);padding:20px 24px 24px}
+.nav-mob.open{display:block}
+.nav-mob a,.nav-mob button{display:block;width:100%;text-align:left;padding:12px 0;font-size:.9rem;color:var(--t2);border-bottom:1px solid var(--bdr);background:none;border-left:none;border-right:none;border-top:none;font-family:var(--ff);cursor:pointer;text-decoration:none}
+.nav-mob a:last-child,.nav-mob button:last-child{border-bottom:none}
+.nav-mob a:hover,.nav-mob button:hover{color:var(--t1)}
+
+/* HERO 2 COLUNAS */
+#hero{min-height:100vh;display:flex;align-items:center;padding:120px 48px 80px}
+.hero-inner{max-width:1180px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 400px;gap:80px;align-items:center}
+.hero-h{font-size:clamp(2.8rem,5.5vw,5.2rem);font-weight:900;letter-spacing:-.05em;line-height:1.02;margin-bottom:28px}
+.hero-h .line{display:block;overflow:hidden}
+.hero-h .line span{display:inline-block;animation:slideUp .85s var(--ease) both}
+.hero-h .line:nth-child(2) span{animation-delay:.1s}
+.hero-h .line:nth-child(3) span{animation-delay:.2s}
+@keyframes slideUp{from{transform:translateY(105%);opacity:0}to{transform:translateY(0);opacity:1}}
+.hero-sub{font-size:.95rem;font-weight:300;color:var(--t2);line-height:1.9;max-width:480px;margin-bottom:40px}
+.hero-sub strong{color:var(--t1);font-weight:600}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:52px}
+.btn-p{display:inline-flex;align-items:center;gap:9px;background:var(--p);color:#fff;padding:14px 28px;border-radius:var(--r);font-size:.82rem;font-weight:700;text-decoration:none;transition:all .25s var(--ease);cursor:pointer;border:none;font-family:var(--ff)}
+.btn-p:hover{background:var(--pl);transform:translateY(-2px);box-shadow:0 12px 36px -6px rgba(123,54,20,.65)}
+.btn-g{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--bdr);color:var(--t2);padding:14px 22px;border-radius:var(--r);font-size:.82rem;font-weight:500;text-decoration:none;transition:all .25s var(--ease)}
+.btn-g:hover{border-color:rgba(255,255,255,.18);color:var(--t1);background:rgba(255,255,255,.03)}
+.hero-stats{display:flex;gap:0;border-top:1px solid var(--bdr);padding-top:40px}
+.h-stat{flex:1;padding-right:24px}
+.h-stat+.h-stat{border-left:1px solid var(--bdr);padding-left:24px}
+.h-stat-n{font-size:2.2rem;font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--pl)}
+.h-stat-l{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-top:6px}
+
+/* HERO VISUAL — cards flutuantes */
+.hero-visual{position:relative;height:420px}
+.hv-card{position:absolute;padding:20px 22px;background:rgba(8,8,8,.92);border:1px solid var(--bdr);border-radius:16px;backdrop-filter:blur(16px)}
+.hv-main{top:50%;left:50%;transform:translate(-50%,-55%);width:220px;animation:flt 5s ease-in-out infinite}
+.hv-a{top:4%;right:-8px;width:155px;animation:flt2 4.5s ease-in-out infinite}
+.hv-b{bottom:12%;left:-10px;width:175px;animation:flt3 6s ease-in-out infinite}
+@keyframes flt{0%,100%{transform:translate(-50%,-55%)}50%{transform:translate(-50%,-63%)}}
+@keyframes flt2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes flt3{0%,100%{transform:translateY(-4px)}50%{transform:translateY(6px)}}
+.hv-label{font-size:.58rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.hv-val{font-size:1.8rem;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:12px}
+.hv-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.hv-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.hv-txt{font-size:.68rem;font-weight:600}
+.hv-sub{font-size:.58rem;color:var(--t3)}
+.hv-tag{font-size:.6rem;font-weight:700;margin-top:4px}
+.bar-bg{height:3px;background:rgba(255,255,255,.06);border-radius:2px;margin-bottom:6px}
+.bar-fill{height:3px;border-radius:2px;background:linear-gradient(90deg,var(--p),var(--pl))}
+.bar-lbs{display:flex;justify-content:space-between;font-size:.58rem;color:var(--t3)}
+
+/* TICKER */
+.ticker-wrap{border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:rgba(255,255,255,.015);overflow:hidden;padding:13px 0;position:relative;z-index:1}
+.ticker-track{display:flex;white-space:nowrap;width:max-content}
+.ticker-track.fwd{animation:tickFwd 28s linear infinite}
+.ticker-track.rev{animation:tickRev 28s linear infinite}
+@keyframes tickFwd{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes tickRev{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.ticker-item{display:inline-flex;align-items:center;gap:22px;padding:0 22px;font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--t3)}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:var(--pl);flex-shrink:0}
+
+/* DIAGNÓSTICO */
+#sinais{padding:128px 0;border-top:1px solid var(--bdr)}
+.sec-head{margin-bottom:60px}
+.sec-head h2{font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:12px;line-height:1.15}
+.sec-head p{font-size:.85rem;color:var(--t2);font-weight:300;max-width:520px;line-height:1.85}
+.signs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sign-card{padding:28px;position:relative;overflow:hidden}
+.sign-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--p),var(--pl));opacity:0;transition:opacity .3s var(--ease)}
+.sign-card:hover::after{opacity:1}
+.sign-ico{width:44px;height:44px;background:rgba(123,54,20,.08);border:1px solid rgba(123,54,20,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.sign-ico svg{width:20px;height:20px;stroke:var(--pl);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sign-card h3{font-size:.88rem;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+.sign-card p{font-size:.77rem;color:var(--t2);font-weight:300;line-height:1.8}
+
+/* NÚMEROS DE IMPACTO */
+#numeros{padding:0 0 128px;border:none}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-top:60px}
+.stat-col{padding:48px;position:relative}
+.stat-col+.stat-col{border-left:1px solid var(--bdr)}
+.stat-col::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(123,54,20,.25),transparent)}
+.stat-n{font-size:clamp(4rem,8vw,7rem);font-weight:900;letter-spacing:-.05em;line-height:.9;color:var(--t1);margin-bottom:20px;display:flex;align-items:baseline;gap:4px}
+.stat-n sub{font-size:.45em;color:var(--pl);letter-spacing:-.02em}
+.stat-desc{font-size:.82rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:200px}
+.stat-tag{display:inline-block;margin-top:16px;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ok);background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.18);padding:3px 10px;border-radius:999px}
+
+/* FUNIL */
+#funil{padding:128px 0;border-top:1px solid var(--bdr)}
+.funil-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.funil-visual svg{width:100%;max-width:300px;display:block}
+.funil-tags{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.ftag{display:flex;align-items:center;gap:12px}
+.ftag-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ftag-txt{font-size:.75rem;font-weight:600}
+.ftag-pct{margin-left:auto;font-size:.72rem;color:var(--t3)}
+.funil-txt h2{font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:22px}
+.funil-txt p{font-size:.85rem;color:var(--t2);font-weight:300;line-height:1.9;margin-bottom:14px}
+.funil-insight{background:rgba(123,54,20,.07);border:1px solid rgba(123,54,20,.18);border-radius:var(--r);padding:20px 24px;margin:24px 0}
+.funil-insight strong{color:var(--pl);font-size:.8rem;display:block;margin-bottom:6px}
+.funil-insight p{font-size:.78rem;color:var(--t2);margin:0;line-height:1.75}
+
+/* PROJEÇÃO */
+#projecao{padding:128px 0;border-top:1px solid var(--bdr)}
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden}
+.proj-left{padding:52px}
+.proj-right{padding:52px;background:rgba(255,255,255,.02);border-left:1px solid var(--bdr);display:flex;flex-direction:column;justify-content:center}
+.proj-h{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:8px;line-height:1.25}
+.proj-sub{font-size:.8rem;color:var(--t2);font-weight:300;line-height:1.8;margin-bottom:36px}
+.slider-grp{margin-bottom:30px}
+.slider-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.slider-lbl{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:7px}
+.slider-lbl svg{width:13px;height:13px;stroke:var(--pl);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.slider-cur{font-size:.85rem;font-weight:700;color:var(--pl)}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;height:4px;
+  background:linear-gradient(to right,var(--p) 0%,var(--p) var(--pct,30%),rgba(255,255,255,.1) var(--pct,30%),rgba(255,255,255,.1) 100%);
+  border-radius:2px;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--pl);border:2px solid var(--bg);box-shadow:0 0 10px rgba(123,54,20,.55);cursor:pointer;transition:transform .2s
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--pl);border:2px solid var(--bg);box-shadow:0 0 10px rgba(123,54,20,.55);cursor:pointer}
+.slider-range{display:flex;justify-content:space-between;margin-top:6px;font-size:.62rem;color:var(--t3)}
+.res-lbl{font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.res-block{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--bdr)}
+.res-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+.res-mini{padding:14px;background:rgba(0,0,0,.3);border:1px solid var(--bdr);border-radius:8px}
+.res-mini label{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:4px}
+.res-mini .val{font-size:1rem;font-weight:800;letter-spacing:-.02em}
+.res-mini.accent{border-color:rgba(123,54,20,.25)}
+.res-mini.accent .val{color:var(--pl)}
+.res-val{font-size:clamp(2rem,3.5vw,2.8rem);font-weight:900;letter-spacing:-.05em;line-height:1}
+.res-hint{font-size:.72rem;color:var(--t3);margin-top:8px;font-weight:300}
+.res-cta{display:inline-flex;align-items:center;gap:10px;background:var(--p);color:#fff;padding:13px 24px;border-radius:var(--r);font-size:.8rem;font-weight:700;cursor:pointer;border:none;font-family:var(--ff);transition:all .25s var(--ease);margin-top:28px;width:100%;justify-content:center}
+.res-cta:hover{background:var(--pl);transform:translateY(-2px);box-shadow:0 10px 30px -6px rgba(123,54,20,.6)}
+
+/* METODOLOGIA — HORIZONTAL */
+#metodologia{padding:128px 0;border-top:1px solid var(--bdr)}
+.met-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:72px;gap:32px;flex-wrap:wrap}
+.met-top h2{font-size:clamp(2rem,3.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;max-width:520px}
+.met-top p{font-size:.85rem;color:var(--t2);font-weight:300;line-height:1.85;max-width:320px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);position:relative}
+.steps::before{content:'';position:absolute;top:34px;left:28px;right:28px;height:1px;background:linear-gradient(90deg,transparent 0%,var(--bdr) 15%,var(--bdr) 85%,transparent 100%)}
+.step{padding:0 10px;text-align:center;cursor:default}
+.step-num{width:68px;height:68px;border-radius:50%;background:var(--bg);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:.78rem;font-weight:800;color:var(--t3);position:relative;z-index:2;transition:all .35s var(--ease)}
+.step:hover .step-num{border-color:var(--bdr-h);color:var(--pl);background:rgba(123,54,20,.1);box-shadow:0 0 0 6px rgba(123,54,20,.06),0 0 32px -6px rgba(123,54,20,.5);transform:scale(1.06)}
+.step-title{font-size:.78rem;font-weight:700;letter-spacing:-.01em;margin-bottom:10px;transition:color .25s}
+.step:hover .step-title{color:var(--pl)}
+.step-desc{font-size:.72rem;color:var(--t2);font-weight:300;line-height:1.8}
+.step-chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:14px}
+
+/* PILARES */
+#pilares{padding:128px 0;border-top:1px solid var(--bdr)}
+.pilares-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pilar-card{padding:30px;position:relative;overflow:hidden}
+.pilar-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--p),var(--pl));opacity:0;transition:opacity .3s var(--ease)}
+.pilar-card:hover::after{opacity:1}
+.pilar-ico{width:44px;height:44px;background:rgba(123,54,20,.08);border:1px solid rgba(123,54,20,.18);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.pilar-ico svg{width:20px;height:20px;stroke:var(--pl);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.pilar-card h3{font-size:1.1rem;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.pilar-card p{font-size:.77rem;color:var(--t2);font-weight:300;line-height:1.8;margin-bottom:18px}
+.pilar-bullets{list-style:none;display:flex;flex-direction:column;gap:7px}
+.pilar-bullets li{display:flex;align-items:center;gap:8px;font-size:.72rem;color:rgba(240,240,240,.75)}
+.bul{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pl));flex-shrink:0}
+
+/* DEPOIMENTOS — CARROSSEL */
+#depoimentos{padding:128px 0;border-top:1px solid var(--bdr);overflow:hidden}
+.dep-track{overflow:hidden;mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%)}
+.dep-inner{display:flex;gap:16px;width:max-content;animation:dep-scroll 36s linear infinite}
+.dep-inner:hover{animation-play-state:paused}
+@keyframes dep-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.dep-card{width:380px;min-width:380px;padding:28px;display:flex;flex-direction:column;flex-shrink:0}
+.dep-card svg{width:28px;height:28px;stroke:rgba(123,54,20,.45);fill:none;stroke-width:1.5;margin-bottom:14px;flex-shrink:0}
+.dep-text{font-size:.82rem;color:rgba(240,240,240,.85);line-height:1.85;font-style:italic;flex:1;margin-bottom:20px}
+.dep-metric{background:rgba(123,54,20,.07);border:1px solid rgba(123,54,20,.2);border-radius:8px;padding:10px 14px;margin-bottom:16px}
+.dep-metric-label{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:2px}
+.dep-metric-val{font-size:.82rem;font-weight:700;color:var(--pl)}
+.dep-footer{display:flex;justify-content:space-between;align-items:center}
+.dep-name{font-size:.82rem;font-weight:700}
+.dep-role{font-size:.68rem;color:var(--t2);margin-top:2px}
+.dep-stars{display:flex;gap:2px}
+.dep-stars svg{width:11px;height:11px;fill:var(--p);stroke:var(--p);stroke-width:.5}
+
+/* MANIFESTO (strip antes do contato) */
+#manifesto{padding:96px 0;border-top:1px solid var(--bdr);overflow:hidden}
+.mani-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;pointer-events:none;background:radial-gradient(ellipse at center,rgba(123,54,20,.1) 0%,transparent 65%);filter:blur(50px)}
+.mani-inner{max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.mani-line{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.25;color:rgba(255,255,255,.15);margin-bottom:4px;transition:color .6s var(--ease)}
+.mani-line.lit{color:var(--t1)}
+.mani-line.accent{font-family:var(--fi);font-style:italic;color:rgba(123,54,20,.25)}
+.mani-line.accent.lit{color:var(--pl)}
+.mani-line.sm{font-size:clamp(.85rem,1.4vw,1rem);font-weight:300;color:rgba(255,255,255,.12);letter-spacing:0}
+.mani-line.sm.lit{color:var(--t2)}
+.gap{height:28px}.gap.sm{height:12px}
+
+/* CONTATO */
+#contato{padding:160px 0;border-top:1px solid var(--bdr);overflow:hidden}
+.cta-glow-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:600px;pointer-events:none;background:radial-gradient(ellipse at center,rgba(123,54,20,.12) 0%,transparent 65%);filter:blur(50px)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+.contact-left h2{font-size:clamp(1.8rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:20px}
+.contact-left p{font-size:.85rem;color:var(--t2);font-weight:300;line-height:1.9;margin-bottom:28px}
+.check-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.check-item{display:flex;align-items:flex-start;gap:10px;font-size:.82rem}
+.check-ico{width:18px;height:18px;flex-shrink:0;margin-top:2px;stroke:var(--ok);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.priv-note{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--t3)}
+.priv-note svg{width:12px;height:12px;stroke:var(--t3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.form-box{padding:40px;border-radius:var(--r);border:1px solid var(--bdr);background:rgba(255,255,255,.02)}
+.fld{margin-bottom:18px}
+.fld label{display:block;font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.fld .inp-box{display:flex;align-items:center;background:rgba(0,0,0,.4);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;transition:border-color .2s}
+.fld .inp-box:focus-within{border-color:var(--p)}
+.fld .inp-box input,.fld .inp-box select{background:none;border:none;outline:none;color:var(--t1);font-family:var(--ff);font-size:.88rem;font-weight:500;padding:0 14px;height:44px;width:100%;min-width:0}
+.fld .inp-box input::placeholder{color:var(--t3);font-weight:300}
+.fld .inp-box select{cursor:pointer}
+.fld .inp-box select option{background:#111;color:var(--t1)}
+.fld-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-submit{width:100%;height:46px;margin-top:10px;background:var(--p);color:#fff;font-size:.82rem;font-weight:700;border-radius:var(--r);display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s var(--ease);cursor:pointer;border:none;font-family:var(--ff)}
+.form-submit:hover:not(:disabled){background:var(--pl);transform:translateY(-1px);box-shadow:0 10px 28px -4px rgba(123,54,20,.55)}
+.form-submit:disabled{opacity:.6;cursor:not-allowed}
+.form-note{text-align:center;font-size:.65rem;color:var(--t3);margin-top:10px}
+.form-ok{text-align:center;padding:40px 20px}
+.form-ok-ico{width:56px;height:56px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 28px rgba(123,54,20,.4)}
+.form-ok-ico svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.form-ok h3{font-size:1.3rem;font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.form-ok p{font-size:.82rem;color:var(--t2);line-height:1.75}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bdr);padding:36px 0}
+.foot-i{max-width:1180px;margin:0 auto;padding:0 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.foot-logo{font-size:.88rem;font-weight:800;color:var(--t2);text-decoration:none}
+.foot-logo em{font-style:normal;color:var(--pl)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-size:.72rem;color:var(--t3);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--t1)}
+.foot-copy{font-size:.68rem;color:var(--t3)}
+
+/* WHATSAPP */
+.wa-float{position:fixed;bottom:24px;right:24px;z-index:200;width:54px;height:54px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(34,197,94,.4);transition:transform .25s var(--ease),box-shadow .25s}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 0 34px rgba(34,197,94,.6)}
+.wa-float svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.wa-float::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:rgba(34,197,94,.18);animation:wa-ring 2.5s ease-in-out infinite}
+@keyframes wa-ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.14);opacity:0}}
+
+/* MOBILE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:48px}
+  .hero-visual{display:none}
+  .hero-h{font-size:clamp(2.6rem,7vw,4.8rem)}
+}
+@media(max-width:900px){
+  .wrap,.nav-i,.foot-i{padding-left:24px;padding-right:24px}
+  .nav-links,.nav-cta{display:none}.nav-ham{display:flex}
+  #hero{padding:100px 24px 72px}
+  .signs-grid,.pilares-grid,.dep-grid{grid-template-columns:1fr}
+  .proj-grid,.contact-grid,.funil-grid{grid-template-columns:1fr}
+  .proj-left,.proj-right{padding:32px 28px}
+  .proj-right{border-left:none;border-top:1px solid var(--bdr)}
+  .stats-grid{grid-template-columns:1fr}
+  .stat-col+.stat-col{border-left:none;border-top:1px solid var(--bdr)}
+  .steps{grid-template-columns:1fr;gap:28px}
+  .steps::before{display:none}
+  .met-top{flex-direction:column;align-items:flex-start;gap:14px}
+  #sinais,#numeros,#funil,#projecao,#metodologia,#pilares,#depoimentos{padding:80px 0}
+  #contato{padding:96px 0}
+  .fld-row{grid-template-columns:1fr}
+  .foot-i{flex-direction:column;text-align:center}.foot-links{justify-content:center}
+}
+@media(max-width:480px){.hero-btns{flex-direction:column}.btn-p,.btn-g{width:100%;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ═══ NAV ═══════════════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-i">
+    <button class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Local<em>TECH</em><span class="logo-sep">|</span>Company</button>
+    <ul class="nav-links">
+      <li><a href="#sinais" onclick="go(event,'sinais')">Diagnóstico</a></li>
+      <li><a href="#funil" onclick="go(event,'funil')">Funil</a></li>
+      <li><a href="#projecao" onclick="go(event,'projecao')">Projeção</a></li>
+      <li><a href="#metodologia" onclick="go(event,'metodologia')">Metodologia</a></li>
+      <li><a href="#depoimentos" onclick="go(event,'depoimentos')">Cases</a></li>
+    </ul>
+    <button class="nav-cta" onclick="go(null,'contato')">Análise de Viabilidade</button>
+    <button class="nav-ham" id="ham" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-mob" id="navMob">
+    <a href="#sinais" onclick="go(event,'sinais')">Diagnóstico</a>
+    <a href="#funil" onclick="go(event,'funil')">Funil</a>
+    <a href="#projecao" onclick="go(event,'projecao')">Projeção</a>
+    <a href="#metodologia" onclick="go(event,'metodologia')">Metodologia</a>
+    <a href="#depoimentos" onclick="go(event,'depoimentos')">Cases</a>
+    <button onclick="go(null,'contato');toggleNav()" style="color:var(--pl);font-weight:700">Análise de Viabilidade →</button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow" style="margin-bottom:32px">Assessoria de Crescimento Empresarial</div>
+      <h1 class="hero-h">
+        <span class="line"><span>Não entregamos</span></span>
+        <span class="line"><span>consultoria.</span></span>
+        <span class="line hero-shine"><span class="shimmer">Entregamos lucro líquido e escala.</span></span>
+      </h1>
+      <p class="hero-sub rev">Somos uma assessoria que entra a fundo na operação do seu negócio para construir uma máquina de receita previsível. <strong>Resultado financeiro real, não promessas de marketing.</strong></p>
+      <div class="hero-btns rev d1">
+        <button class="btn-p" onclick="go(null,'contato')">
+          Solicitar Análise de Viabilidade
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn-g" onclick="go(null,'projecao')">
+          Simular minha projeção
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+      <div class="hero-stats rev d2">
+        <div class="h-stat"><div class="h-stat-n">5</div><div class="h-stat-l">Etapas do método</div></div>
+        <div class="h-stat"><div class="h-stat-n">+182%</div><div class="h-stat-l">Lucro líquido — case real</div></div>
+        <div class="h-stat"><div class="h-stat-n">30d</div><div class="h-stat-l">Primeiros resultados</div></div>
+      </div>
+    </div>
+
+    <!-- Cards flutuantes -->
+    <div class="hero-visual rev d2">
+      <div class="hv-card hv-main">
+        <div class="hv-label">Lucro líquido mensal</div>
+        <div class="hv-val" style="color:var(--ok)">+182%</div>
+        <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
+        <div class="bar-lbs"><span>Antes</span><span>Depois</span></div>
+        <div style="margin-top:14px;display:flex;gap:6px;flex-wrap:wrap"><span class="chip">Funil ativo</span><span class="chip">Processos</span></div>
+      </div>
+      <div class="hv-card hv-a">
+        <div class="hv-label">Ticket médio</div>
+        <div style="font-size:1.4rem;font-weight:900;letter-spacing:-.04em;color:var(--pl);line-height:1">+64%</div>
+        <div class="hv-tag" style="color:var(--ok)">↑ churn −41%</div>
+      </div>
+      <div class="hv-card hv-b">
+        <div class="hv-row"><div class="hv-dot" style="background:var(--ok)"></div><div><div class="hv-txt">Operação rodando</div><div class="hv-sub">Sem depender do dono</div></div></div>
+        <div class="hv-row" style="margin-bottom:0"><div class="hv-dot" style="background:var(--pl)"></div><div><div class="hv-txt">ROI mensurável</div><div class="hv-sub">60 dias de processo</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TICKER 1 ════════════════════════════════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track fwd">
+    <span class="ticker-item"><span class="ticker-dot"></span>DIAGNÓSTICO</span><span class="ticker-item"><span class="ticker-dot"></span>POSICIONAMENTO</span><span class="ticker-item"><span class="ticker-dot"></span>PROCESSOS</span><span class="ticker-item"><span class="ticker-dot"></span>DEMANDA</span><span class="ticker-item"><span class="ticker-dot"></span>INDICADORES</span><span class="ticker-item"><span class="ticker-dot"></span>ENGENHARIA DE RECEITA</span><span class="ticker-item"><span class="ticker-dot"></span>DIAGNÓSTICO</span><span class="ticker-item"><span class="ticker-dot"></span>POSICIONAMENTO</span><span class="ticker-item"><span class="ticker-dot"></span>PROCESSOS</span><span class="ticker-item"><span class="ticker-dot"></span>DEMANDA</span><span class="ticker-item"><span class="ticker-dot"></span>INDICADORES</span><span class="ticker-item"><span class="ticker-dot"></span>ENGENHARIA DE RECEITA</span>
+  </div>
+</div>
+
+<!-- ═══ DIAGNÓSTICO ═════════════════════════════════════════════════════ -->
+<section id="sinais">
+  <div class="wrap">
+    <span class="sec-lbl rev">01 — DIAGNÓSTICO</span>
+    <div class="sec-head rev d1">
+      <h2>Você reconhece algum desses <span class="ac">sinais</span> na sua operação?</h2>
+      <p>Maior parte das empresas geralmente travam por falta de engenharia — não por falta de esforço.</p>
+    </div>
+    <div class="signs-grid">
+      <div class="card sign-card rev">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+        <h3>Faturamento estagnado</h3>
+        <p>Você cresceu até certo ponto e bateu num teto invisível. Mais esforço, mesmo resultado.</p>
+      </div>
+      <div class="card sign-card rev d1">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Dependência do dono</h3>
+        <p>A operação só funciona quando você está dentro. Férias viram um luxo arriscado.</p>
+      </div>
+      <div class="card sign-card rev d2">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg></div>
+        <h3>Margem apertada</h3>
+        <p>O caixa entra, mas o lucro líquido some. Você não sabe exatamente onde.</p>
+      </div>
+      <div class="card sign-card rev d3">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+        <h3>Vendas imprevisíveis</h3>
+        <p>Mês bom, mês ruim. Sem previsibilidade, sem como planejar crescimento.</p>
+      </div>
+      <div class="card sign-card rev d4">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <h3>Time sem processos</h3>
+        <p>Cada vendedor faz do seu jeito. Cada entrega é uma nova negociação interna.</p>
+      </div>
+      <div class="card sign-card rev d5">
+        <div class="sign-ico"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <h3>Marketing sem ROI</h3>
+        <p>Você investe em tráfego, agência, posts — e não consegue medir lucro real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NÚMEROS DE IMPACTO ══════════════════════════════════════════════ -->
+<section id="numeros">
+  <div class="wrap">
+    <div class="stats-grid rev d1">
+      <div class="stat-col">
+        <div class="stat-n"><span class="cnt" data-to="92">0</span><sub>%</sub></div>
+        <p class="stat-desc">dos leads nunca viraram receita — porque ninguém fechou os buracos do funil.</p>
+        <span class="stat-tag">Problema que resolvemos</span>
+      </div>
+      <div class="stat-col">
+        <div class="stat-n">+<span class="cnt" data-to="147">0</span><sub>%</sub></div>
+        <p class="stat-desc">de lucro líquido em média quando processo, posicionamento e demanda operam juntos.</p>
+        <span class="stat-tag">Resultado típico</span>
+      </div>
+      <div class="stat-col">
+        <div class="stat-n"><span class="cnt" data-to="30">0</span><sub>d</sub></div>
+        <p class="stat-desc">para os primeiros resultados aparecerem após o processo ser instalado.</p>
+        <span class="stat-tag">Tempo médio</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TICKER 2 ════════════════════════════════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track rev">
+    <span class="ticker-item"><span class="ticker-dot"></span>LUCRO LÍQUIDO</span><span class="ticker-item"><span class="ticker-dot"></span>RECEITA PREVISÍVEL</span><span class="ticker-item"><span class="ticker-dot"></span>FUNIL ESTRUTURADO</span><span class="ticker-item"><span class="ticker-dot"></span>PLAYBOOK COMERCIAL</span><span class="ticker-item"><span class="ticker-dot"></span>DASHBOARD BI</span><span class="ticker-item"><span class="ticker-dot"></span>ROI RASTREÁVEL</span><span class="ticker-item"><span class="ticker-dot"></span>LUCRO LÍQUIDO</span><span class="ticker-item"><span class="ticker-dot"></span>RECEITA PREVISÍVEL</span><span class="ticker-item"><span class="ticker-dot"></span>FUNIL ESTRUTURADO</span><span class="ticker-item"><span class="ticker-dot"></span>PLAYBOOK COMERCIAL</span><span class="ticker-item"><span class="ticker-dot"></span>DASHBOARD BI</span><span class="ticker-item"><span class="ticker-dot"></span>ROI RASTREÁVEL</span>
+  </div>
+</div>
+
+<!-- ═══ FUNIL ════════════════════════════════════════════════════════════ -->
+<section id="funil">
+  <div class="wrap">
+    <span class="sec-lbl rev">02 — O FUNIL DA ENGENHARIA DE RECEITA</span>
+    <div class="funil-grid">
+      <div class="rev">
+        <svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 28 L290 28 L252 92 L48 92 Z" fill="hsl(20,72%,28%)" opacity=".9"/>
+          <path d="M48 100 L252 100 L222 164 L78 164 Z" fill="hsl(18,73%,21%)" opacity=".85"/>
+          <path d="M78 172 L222 172 L196 236 L104 236 Z" fill="hsl(16,75%,14%)" opacity=".85"/>
+          <path d="M104 244 L196 244 L174 308 L126 308 Z" fill="hsl(14,78%,11%)" opacity=".85"/>
+          <path d="M126 316 L174 316 L160 372 L140 372 Z" fill="#22c55e" opacity=".95"/>
+          <!-- Labels esquerda -->
+          <text x="2" y="64" font-family="Sora,sans-serif" font-size="9.5" fill="#666" font-weight="600">Diagnóstico</text>
+          <text x="2" y="136" font-family="Sora,sans-serif" font-size="9.5" fill="#666" font-weight="600">Posic.</text>
+          <text x="2" y="208" font-family="Sora,sans-serif" font-size="9.5" fill="#666" font-weight="600">Processos</text>
+          <text x="2" y="280" font-family="Sora,sans-serif" font-size="9.5" fill="#666" font-weight="600">Demanda</text>
+          <text x="2" y="348" font-family="Sora,sans-serif" font-size="9.5" fill="#22c55e" font-weight="700">Indicadores</text>
+          <!-- Percentuais direita -->
+          <text x="257" y="64" font-family="Sora,sans-serif" font-size="9.5" fill="#f0f0f0" font-weight="800">100%</text>
+          <text x="257" y="136" font-family="Sora,sans-serif" font-size="9.5" fill="hsl(40,85%,52%)" font-weight="800">80%</text>
+          <text x="257" y="208" font-family="Sora,sans-serif" font-size="9.5" fill="hsl(22,68%,42%)" font-weight="800">65%</text>
+          <text x="257" y="280" font-family="Sora,sans-serif" font-size="9.5" fill="hsl(20,72%,28%)" font-weight="800">52%</text>
+          <text x="257" y="348" font-family="Sora,sans-serif" font-size="9.5" fill="#22c55e" font-weight="800">Lucro</text>
+          <!-- Setas de perda -->
+          <path d="M252 100 Q272 114 280 100" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3 3" fill="none" opacity=".55"/>
+          <text x="278" y="126" font-family="Sora,sans-serif" font-size="8" fill="#f87171" opacity=".65">−20%</text>
+          <path d="M222 172 Q242 186 250 172" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3 3" fill="none" opacity=".55"/>
+          <text x="248" y="198" font-family="Sora,sans-serif" font-size="8" fill="#f87171" opacity=".65">−15%</text>
+          <path d="M196 244 Q216 258 224 244" stroke="#f87171" stroke-width="1.2" stroke-dasharray="3 3" fill="none" opacity=".55"/>
+          <text x="222" y="270" font-family="Sora,sans-serif" font-size="8" fill="#f87171" opacity=".65">−13%</text>
+        </svg>
+        <div class="funil-tags">
+          <div class="ftag"><div class="ftag-dot" style="background:var(--pl)"></div><span class="ftag-txt">Processo completo instalado</span><span class="ftag-pct">100%</span></div>
+          <div class="ftag"><div class="ftag-dot" style="background:#f87171"></div><span class="ftag-txt" style="color:#f87171">Sem engenharia — receita que vaza</span><span class="ftag-pct" style="color:#f87171">~48%</span></div>
+          <div class="ftag"><div class="ftag-dot" style="background:var(--ok)"></div><span class="ftag-txt">Lucro líquido composto</span><span class="ftag-pct" style="color:var(--ok)">Resultado</span></div>
+        </div>
+      </div>
+      <div class="funil-txt rev d1">
+        <div class="eyebrow">Método comprovado</div>
+        <h2>5 etapas que convertem<br/>operação em <span class="ac">lucro líquido.</span></h2>
+        <p>Cada etapa do funil transforma uma camada de improvisação em processo. Diagnóstico, posicionamento, processos, demanda e indicadores — sem pular nenhum degrau.</p>
+        <p>Empresas que chegam em nós com faturamento estagnado geralmente têm o mesmo problema: trabalham muito, mas sem engenharia. O funil mostra onde a receita escapa.</p>
+        <div class="funil-insight">
+          <strong>Por que funil e não consultoria?</strong>
+          <p>Consultoria entrega slide. Engenharia de receita instala processo. Cada etapa do funil tem entregáveis concretos e métricas de validação — não recomendações genéricas.</p>
+        </div>
+        <button class="btn-g" onclick="go(null,'contato')" style="margin-top:8px">Ver como se aplica ao meu negócio <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJEÇÃO ═════════════════════════════════════════════════════════ -->
+<section id="projecao">
+  <div class="wrap">
+    <span class="sec-lbl rev">03 — PROJEÇÃO DE IMPACTO</span>
+    <div class="proj-grid card rev d1">
+      <div class="proj-left">
+        <div class="eyebrow">Simulador de Receita</div>
+        <h2 class="proj-h">Quanto sua empresa deixa <span class="ac">na mesa</span> hoje?</h2>
+        <p class="proj-sub">Ajuste os dados do seu negócio. O potencial aparece em tempo real.</p>
+        <div class="slider-grp">
+          <div class="slider-row">
+            <span class="slider-lbl"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Faturamento mensal</span>
+            <span class="slider-cur" id="revVal">R$ 150.000</span>
+          </div>
+          <input type="range" id="revSlider" min="30000" max="2000000" step="10000" value="150000" oninput="calc()">
+          <div class="slider-range"><span>R$ 30k</span><span>R$ 2M</span></div>
+        </div>
+        <div class="slider-grp">
+          <div class="slider-row">
+            <span class="slider-lbl"><svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Margem líquida atual</span>
+            <span class="slider-cur" id="marVal">15%</span>
+          </div>
+          <input type="range" id="marSlider" min="3" max="40" step="1" value="15" oninput="calc()">
+          <div class="slider-range"><span>3%</span><span>40%</span></div>
+        </div>
+        <div class="slider-grp">
+          <div class="slider-row">
+            <span class="slider-lbl"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Ganho de eficiência projetado</span>
+            <span class="slider-cur" id="liftVal">+35%</span>
+          </div>
+          <input type="range" id="liftSlider" min="10" max="80" step="5" value="35" oninput="calc()">
+          <div class="slider-range"><span>+10%</span><span>+80%</span></div>
+        </div>
+      </div>
+      <div class="proj-right">
+        <div class="res-block">
+          <div class="res-pair">
+            <div class="res-mini">
+              <label>Lucro atual / mês</label>
+              <span class="val" id="curProfit">R$ 22.500</span>
+            </div>
+            <div class="res-mini accent">
+              <label>Novo lucro / mês</label>
+              <span class="val" id="newProfit">—</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="res-lbl">Impacto anual estimado</div>
+          <div class="res-val" id="yearlyDelta" style="color:var(--ok)">—</div>
+          <div class="res-hint">em lucro líquido adicional, sem aumentar investimento em tráfego.</div>
+        </div>
+        <button class="res-cta" onclick="go(null,'contato')">
+          Quero esta projeção na minha empresa
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <p style="font-size:.65rem;color:var(--t3);margin-top:10px;line-height:1.7">*Projeção conservadora baseada em cases reais. Resultado real depende do diagnóstico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ METODOLOGIA — HORIZONTAL ════════════════════════════════════════ -->
+<section id="metodologia">
+  <div class="wrap">
+    <span class="sec-lbl rev">04 — METODOLOGIA</span>
+    <div class="met-top">
+      <h2 class="rev">Engenharia de <span class="ac">Receita.</span><br/>5 etapas, nenhum improviso.</h2>
+      <p class="rev d1">Cada empresa recebe uma prescrição personalizada — sempre depois do diagnóstico. Nunca antes.</p>
+    </div>
+    <div class="steps">
+      <div class="step rev">
+        <div class="step-num">01</div>
+        <div class="step-title">Diagnóstico Cirúrgico</div>
+        <div class="step-desc">Mergulhamos em finanças, vendas, operação e marketing. Mapeamos os 3 gargalos que mais drenam lucro hoje.</div>
+        <div class="step-chips"><span class="chip">Finanças</span><span class="chip">Funil</span><span class="chip">Ops</span></div>
+      </div>
+      <div class="step rev d1">
+        <div class="step-num">02</div>
+        <div class="step-title">Posicionamento e Oferta</div>
+        <div class="step-desc">Reconstruímos a oferta para vender mais caro, com menos objeção e maior margem.</div>
+        <div class="step-chips"><span class="chip">Oferta</span><span class="chip">ICP</span></div>
+      </div>
+      <div class="step rev d2">
+        <div class="step-num">03</div>
+        <div class="step-title">Engenharia de Processos</div>
+        <div class="step-desc">Comercial, atendimento e entrega viram fluxo replicável — sem depender do dono.</div>
+        <div class="step-chips"><span class="chip">CRM</span><span class="chip">Playbook</span></div>
+      </div>
+      <div class="step rev d3">
+        <div class="step-num">04</div>
+        <div class="step-title">Aceleração de Demanda</div>
+        <div class="step-desc">Tráfego, conteúdo e prospecção integrados a um funil que converte em receita previsível.</div>
+        <div class="step-chips"><span class="chip">Meta</span><span class="chip">Google</span></div>
+      </div>
+      <div class="step rev d4">
+        <div class="step-num">05</div>
+        <div class="step-title">Gestão por Indicadores</div>
+        <div class="step-desc">Dashboards e rituais de gestão que transformam decisão em hábito — não em achismo.</div>
+        <div class="step-chips"><span class="chip">BI</span><span class="chip">KPIs</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PILARES ══════════════════════════════════════════════════════════ -->
+<section id="pilares">
+  <div class="wrap">
+    <span class="sec-lbl rev">05 — TRIÂNGULO DA ENGENHARIA DE RECEITA</span>
+    <div class="sec-head rev d1">
+      <h2>O <span class="ac">Triângulo</span> da Engenharia de Receita</h2>
+      <p>Tirar um vértice e o sistema desaba. Por isso atuamos nos três simultaneamente.</p>
+    </div>
+    <div class="pilares-grid">
+      <div class="card pilar-card rev">
+        <div class="pilar-ico"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <h3>Posicionamento</h3>
+        <p>Marca, oferta e narrativa que justificam preço premium e atraem o cliente certo.</p>
+        <ul class="pilar-bullets"><li><span class="bul"></span>Oferta irresistível</li><li><span class="bul"></span>Autoridade de mercado</li><li><span class="bul"></span>Preço sem objeção</li></ul>
+      </div>
+      <div class="card pilar-card rev d1">
+        <div class="pilar-ico"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg></div>
+        <h3>Demanda</h3>
+        <p>Aquisição multicanal previsível: tráfego, conteúdo e prospecção orquestrados.</p>
+        <ul class="pilar-bullets"><li><span class="bul"></span>CAC sob controle</li><li><span class="bul"></span>Pipeline previsível</li><li><span class="bul"></span>ROI rastreável</li></ul>
+      </div>
+      <div class="card pilar-card rev d2">
+        <div class="pilar-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M3 17l3 3 3-3M3 14h7"/></svg></div>
+        <h3>Processos</h3>
+        <p>Comercial, entrega e gestão padronizados — operação que escala sem o dono.</p>
+        <ul class="pilar-bullets"><li><span class="bul"></span>Playbook comercial</li><li><span class="bul"></span>SLA de entrega</li><li><span class="bul"></span>Dashboard executivo</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEPOIMENTOS ══════════════════════════════════════════════════════ -->
+<section id="depoimentos">
+  <div class="wrap">
+    <span class="sec-lbl rev">06 — RESULTADOS REAIS</span>
+    <div class="sec-head rev d1">
+      <h2>Empresas que pararam de apostar e começaram a <span class="ac">engenheirar</span></h2>
+    </div>
+    <div class="dep-track rev">
+      <div class="dep-inner">
+        <!-- ORIGINAIS -->
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"Pela primeira vez paro de operar a empresa para liderar a empresa. A previsibilidade mudou minha vida pessoal também."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">+182% de lucro líquido em 9 meses</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Rafael Monteiro</p><p class="dep-role">CEO · Indústria de Embalagens</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"Eles não vieram com fórmula pronta. Reconstruíram nossa oferta e o time comercial entendeu o que estava vendendo."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">Ticket médio +64%, churn -41%</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Camila Andrade</p><p class="dep-role">Sócia · Clínica Multidisciplinar</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"É a diferença entre consultoria que entrega slide e assessoria que entrega resultado dentro do P&amp;L."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">MRR de R$ 84k → R$ 310k em 12 meses</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Diego Salles</p><p class="dep-role">Founder · SaaS B2B</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <!-- CÓPIAS para loop infinito -->
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"Pela primeira vez paro de operar a empresa para liderar a empresa. A previsibilidade mudou minha vida pessoal também."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">+182% de lucro líquido em 9 meses</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Rafael Monteiro</p><p class="dep-role">CEO · Indústria de Embalagens</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"Eles não vieram com fórmula pronta. Reconstruíram nossa oferta e o time comercial entendeu o que estava vendendo."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">Ticket médio +64%, churn -41%</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Camila Andrade</p><p class="dep-role">Sócia · Clínica Multidisciplinar</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <div class="card dep-card">
+          <svg viewBox="0 0 24 24"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1zM15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+          <p class="dep-text">"É a diferença entre consultoria que entrega slide e assessoria que entrega resultado dentro do P&amp;L."</p>
+          <div class="dep-metric"><p class="dep-metric-label">Resultado</p><p class="dep-metric-val">MRR de R$ 84k → R$ 310k em 12 meses</p></div>
+          <div class="dep-footer">
+            <div><p class="dep-name">Diego Salles</p><p class="dep-role">Founder · SaaS B2B</p></div>
+            <div class="dep-stars"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MANIFESTO ════════════════════════════════════════════════════════ -->
+<section id="manifesto">
+  <div class="mani-glow"></div>
+  <div class="wrap" style="padding-top:96px;padding-bottom:96px">
+    <div class="mani-inner">
+      <div class="eyebrow rev" style="margin-bottom:48px">Nossa crença</div>
+      <p class="mani-line" data-mani>Crescimento sustentável não acontece por acaso.</p>
+      <p class="mani-line accent" data-mani>Acontece por construção.</p>
+      <div class="gap"></div>
+      <p class="mani-line sm" data-mani>Por isso nunca entregamos consultoria genérica.</p>
+      <div class="gap sm"></div>
+      <p class="mani-line" data-mani>Cada negócio é uma <span class="ac">operação única.</span></p>
+      <p class="mani-line" data-mani>Cada margem tem uma <span class="ac">causa específica.</span></p>
+      <div class="gap"></div>
+      <p class="mani-line sm" data-mani>Diagnóstico honesto antes de qualquer proposta. Sempre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTATO ══════════════════════════════════════════════════════════ -->
+<section id="contato">
+  <div class="cta-glow-bg"></div>
+  <div class="wrap">
+    <span class="sec-lbl rev">07 — ANÁLISE DE VIABILIDADE</span>
+    <div class="contact-grid">
+      <div class="rev">
+        <div class="eyebrow">Análise de Viabilidade</div>
+        <h2 class="contact-left h2">Vamos conversar sobre o <span class="ac">próximo nível</span> da sua empresa</h2>
+        <p class="contact-left p">Em uma conversa de 30 minutos identificamos os 3 maiores gargalos de lucro da sua operação — sem custo, sem compromisso.</p>
+        <ul class="check-list">
+          <li class="check-item"><svg class="check-ico" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Diagnóstico financeiro e operacional gratuito</li>
+          <li class="check-item"><svg class="check-ico" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Projeção de impacto realista para os próximos 12 meses</li>
+          <li class="check-item"><svg class="check-ico" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Plano inicial mesmo se não fecharmos parceria</li>
+        </ul>
+        <p class="priv-note"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Suas informações são tratadas com total confidencialidade.</p>
+      </div>
+      <div class="rev d1">
+        <div class="form-box" id="formBox">
+          <form id="leadForm" onsubmit="submitLead(event)">
+            <div class="fld">
+              <label>Nome completo *</label>
+              <div class="inp-box"><input type="text" id="fname" placeholder="Como devemos te chamar" required></div>
+            </div>
+            <div class="fld-row">
+              <div class="fld">
+                <label>E-mail *</label>
+                <div class="inp-box"><input type="email" id="femail" placeholder="seu@email.com" required></div>
+              </div>
+              <div class="fld">
+                <label>WhatsApp *</label>
+                <div class="inp-box"><input type="tel" id="fphone" placeholder="(11) 99999-9999" required></div>
+              </div>
+            </div>
+            <div class="fld">
+              <label>Empresa</label>
+              <div class="inp-box"><input type="text" id="fcompany" placeholder="Nome da sua empresa"></div>
+            </div>
+            <div class="fld">
+              <label>Faturamento mensal aproximado</label>
+              <div class="inp-box">
+                <select id="frevenue">
+                  <option value="">Selecione uma faixa</option>
+                  <option>Até R$ 50k/mês</option>
+                  <option>R$ 50k a R$ 200k/mês</option>
+                  <option>R$ 200k a R$ 500k/mês</option>
+                  <option>R$ 500k a R$ 1M/mês</option>
+                  <option>Acima de R$ 1M/mês</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="form-submit" id="formBtn">
+              Solicitar Análise de Viabilidade
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <p class="form-note">Resposta em até 24h úteis · Sem custo · Sem compromisso</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="foot-i">
+    <a href="#hero" class="foot-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false">Local<em>TECH</em> <span style="color:var(--bdr);margin:0 5px;font-weight:300">|</span> Company</a>
+    <div class="foot-links">
+      <a href="#sinais" onclick="go(event,'sinais')">Diagnóstico</a>
+      <a href="#projecao" onclick="go(event,'projecao')">Projeção</a>
+      <a href="#metodologia" onclick="go(event,'metodologia')">Metodologia</a>
+      <a href="#contato" onclick="go(event,'contato')">Contato</a>
+      <a href="https://www.instagram.com/localtech_br" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <p class="foot-copy">© <span id="yr"></span> Local TECH · Engenharia de Receita</p>
+  </div>
+</footer>
+
+<!-- ═══ WHATSAPP ══════════════════════════════════════════════════════════ -->
+<a class="wa-float" href="https://wa.me/5511910483076?text=Ol%C3%A1%21%20Vim%20pelo%20site%20da%20Local%20TECH%20e%20gostaria%20de%20ajuda%20para%20entender%20como%20voc%C3%AAs%20podem%20apoiar%20minha%20empresa." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</a>
+
+<script>
+/* PARTICLES */
+(function(){
+  const cv=document.getElementById('c'),ctx=cv.getContext('2d');let pts=[];
+  function resize(){cv.width=innerWidth;cv.height=innerHeight}
+  function init(){pts=[];for(let i=0;i<45;i++)pts.push({x:Math.random()*cv.width,y:Math.random()*cv.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.2+.4})}
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cv.width)p.vx*=-1;if(p.y<0||p.y>cv.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(123,54,20,.7)';ctx.fill()});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<150){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(123,54,20,${(1-d/150)*.12})`;ctx.lineWidth=.7;ctx.stroke()}}
+    requestAnimationFrame(draw);
+  }
+  resize();init();draw();window.addEventListener('resize',()=>{resize();init()});
+})();
+
+/* NAV scroll */
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>{navEl.style.background=scrollY>50?'rgba(5,5,5,.92)':'rgba(5,5,5,.7)';},{passive:true});
+
+/* SCROLL REVEAL */
+const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.08});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+
+/* MANIFESTO */
+const mObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('lit');mObs.unobserve(e.target)}})},{threshold:.4});
+document.querySelectorAll('[data-mani]').forEach(el=>mObs.observe(el));
+
+/* CONTADORES */
+function animCnt(el,to){const s=performance.now(),dur=1400;(function u(t){el.textContent=Math.round(Math.min((t-s)/dur,1)*to);if((t-s)<dur)requestAnimationFrame(u);else el.textContent=to;})(s)}
+const cObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){animCnt(e.target,+e.target.dataset.to);cObs.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.cnt').forEach(el=>cObs.observe(el));
+
+/* NAV */
+function go(e,id){if(e)e.preventDefault();document.getElementById(id)?.scrollIntoView({behavior:'smooth'});document.getElementById('navMob')?.classList.remove('open')}
+function toggleNav(){document.getElementById('navMob').classList.toggle('open')}
+
+/* MOUSE PARALLAX */
+const bgG=document.querySelector('.bg-glow');
+let mx=0,my=0,bx=0,by=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*40;my=(e.clientY/innerHeight-.5)*30;},{passive:true});
+(function raf(){bgG.style.transform=`translateX(calc(-50% + ${bx|0}px)) translateY(${by|0}px)`;bx+=(mx-bx)*.06;by+=(my-by)*.06;requestAnimationFrame(raf)})();
+
+/* MAGNETIC BUTTONS */
+document.querySelectorAll('.btn-p,.btn-g,.nav-cta,.res-cta').forEach(el=>{
+  el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();el.style.transform=`translate(${(e.clientX-(r.left+r.width/2))*.15}px,${(e.clientY-(r.top+r.height/2))*.15}px)`;});
+  el.addEventListener('mouseleave',()=>el.style.transform='');
+});
+
+/* CALCULATOR */
+const fmt=n=>n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+function setPct(el){const p=((+el.value-+el.min)/(+el.max-+el.min))*100;el.style.setProperty('--pct',p+'%')}
+function calc(){
+  const rev=+document.getElementById('revSlider').value;
+  const mar=+document.getElementById('marSlider').value;
+  const lift=+document.getElementById('liftSlider').value;
+  document.getElementById('revVal').textContent=fmt(rev);
+  document.getElementById('marVal').textContent=mar+'%';
+  document.getElementById('liftVal').textContent='+'+lift+'%';
+  [document.getElementById('revSlider'),document.getElementById('marSlider'),document.getElementById('liftSlider')].forEach(setPct);
+  const cur=rev*(mar/100);
+  const nRev=rev*(1+lift/100);
+  const nMar=Math.min(mar+8,45);
+  const nProfit=nRev*(nMar/100);
+  const yr=(nProfit-cur)*12;
+  document.getElementById('curProfit').textContent=fmt(cur);
+  document.getElementById('newProfit').textContent=fmt(nProfit);
+  document.getElementById('yearlyDelta').textContent='+'+fmt(yr);
+}
+calc();
+
+/* FORM */
+const SB='https://pknecnwaiusyiapuqhvx.supabase.co';
+const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrbmVjbndhaXVzeWlhcHVxaHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjA3MDgsImV4cCI6MjA5MTk5NjcwOH0.21fEKlb5YQz0X19LP8rUUd2h7dLpYDot3vCKA-Y5IhA';
+async function submitLead(e){
+  e.preventDefault();
+  const btn=document.getElementById('formBtn');
+  const name=document.getElementById('fname').value.trim();
+  const email=document.getElementById('femail').value.trim();
+  const phone=document.getElementById('fphone').value.trim();
+  const company=document.getElementById('fcompany').value.trim();
+  const revenue=document.getElementById('frevenue').value;
+  if(!name||!email||!phone)return alert('Preencha nome, e-mail e WhatsApp.');
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return alert('E-mail inválido.');
+  btn.disabled=true;btn.textContent='Enviando...';
+  const payload={name,email,phone,company:company||null,revenue:revenue||null};
+  try{
+    const r=await fetch(`${SB}/rest/v1/leads`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+    if(!r.ok)throw new Error();
+    fetch(`${SB}/functions/v1/notify-lead-discord`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SK,'apikey':SK},body:JSON.stringify(payload)}).catch(()=>{});
+    document.getElementById('formBox').innerHTML=`<div class="form-ok"><div class="form-ok-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Solicitação recebida</h3><p>Nosso time vai analisar seu cenário e retornar em até <strong style="color:var(--t1)">24h úteis</strong>.</p></div>`;
+  }catch{
+    btn.disabled=false;btn.innerHTML='Solicitar Análise de Viabilidade <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+    alert('Não foi possível enviar. Tente pelo WhatsApp.');
+  }
+}
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
