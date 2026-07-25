@@ -15,6 +15,14 @@ const LEAD_SOURCE_OPTIONS = {
   indicacao: '9d9a5cd7-b305-41b7-837a-8998ac1b4c27',
 };
 
+// Campo "Telefone" do ClickUp só aceita formato internacional (+55...)
+function normalizePhone(raw) {
+  const digits = String(raw || '').replace(/\D/g, '');
+  if (!digits) return '';
+  const withCountry = digits.startsWith('55') && digits.length >= 12 ? digits : `55${digits}`;
+  return `+${withCountry}`;
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'method_not_allowed' });
@@ -90,7 +98,7 @@ function buildLandingPageTask(body) {
     name: company ? `${name} (${company})` : name,
     description,
     custom_fields: [
-      { id: FIELDS.telefone, value: phone },
+      { id: FIELDS.telefone, value: normalizePhone(phone) },
       { id: FIELDS.leadSource, value: LEAD_SOURCE_OPTIONS.organico },
     ],
   };
@@ -112,7 +120,7 @@ function buildInstitucionalTask(body) {
     name: company ? `${name} (${company})` : name,
     description,
     custom_fields: [
-      { id: FIELDS.telefone, value: phone },
+      { id: FIELDS.telefone, value: normalizePhone(phone) },
       { id: FIELDS.leadSource, value: LEAD_SOURCE_OPTIONS.organico },
     ],
   };
@@ -137,7 +145,7 @@ function buildIndicacaoTask(body) {
     name: referredName,
     description,
     custom_fields: [
-      { id: FIELDS.telefone, value: referredWhatsapp },
+      { id: FIELDS.telefone, value: normalizePhone(referredWhatsapp) },
       { id: FIELDS.leadSource, value: LEAD_SOURCE_OPTIONS.indicacao },
       { id: FIELDS.indicacao, value: referenceLabel || 'Não informado' },
     ],
