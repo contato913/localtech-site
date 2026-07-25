@@ -938,8 +938,6 @@ function calc(){
 calc();
 
 /* FORM */
-const SB='https://pknecnwaiusyiapuqhvx.supabase.co';
-const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBrbmVjbndhaXVzeWlhcHVxaHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0MjA3MDgsImV4cCI6MjA5MTk5NjcwOH0.21fEKlb5YQz0X19LP8rUUd2h7dLpYDot3vCKA-Y5IhA';
 async function submitLead(e){
   e.preventDefault();
   const btn=document.getElementById('formBtn');
@@ -951,11 +949,10 @@ async function submitLead(e){
   if(!name||!email||!phone)return alert('Preencha nome, e-mail e WhatsApp.');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return alert('E-mail inválido.');
   btn.disabled=true;btn.textContent='Enviando...';
-  const payload={name,email,phone,company:company||null,revenue:revenue||null};
+  const payload={source:'landing-page',name,email,phone,company:company||null,revenue:revenue||null};
   try{
-    const r=await fetch(`${SB}/rest/v1/leads`,{method:'POST',headers:{'Content-Type':'application/json','apikey':SK,'Authorization':'Bearer '+SK,'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+    const r=await fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(!r.ok)throw new Error();
-    fetch(`${SB}/functions/v1/notify-lead-discord`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SK,'apikey':SK},body:JSON.stringify(payload)}).catch(()=>{});
     document.getElementById('formBox').innerHTML=`<div class="form-ok"><div class="form-ok-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><h3>Solicitação recebida</h3><p>Nosso time vai analisar seu cenário e retornar em até <strong style="color:var(--t1)">24h úteis</strong>.</p></div>`;
   }catch{
     btn.disabled=false;btn.innerHTML='Solicitar Análise de Viabilidade <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';

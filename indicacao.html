@@ -518,8 +518,6 @@ document.querySelectorAll('.btn-p,.btn-g').forEach(el=>{
 });
 
 /* FORM */
-const WEBHOOK='https://hook.us2.make.com/vesv398duhbfnh1e3943ptlr4rf6ws53';
-
 function getVal(id){return document.getElementById(id).value.trim();}
 function setErr(id,msg){
   const el=document.getElementById('err-'+id);
@@ -554,19 +552,18 @@ async function submitForm(){
   btnIcon.innerHTML='<circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="60" style="animation:spin .8s linear infinite"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur=".7s" repeatCount="indefinite"/></circle>';
 
   try{
-    await fetch(WEBHOOK,{
+    const r=await fetch('/api/lead',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      mode:'no-cors',
       body:JSON.stringify({
+        source:'indicacao',
         referrerName:getVal('referrerName'),
         referrerCompany:getVal('referrerCompany'),
         referredName:getVal('referredName'),
         referredWhatsapp:getVal('referredWhatsapp'),
-        source:'referral-page',
-        submittedAt:new Date().toISOString(),
       }),
     });
+    if(!r.ok)throw new Error();
     document.getElementById('form-state').style.display='none';
     document.getElementById('success-state').style.display='block';
   }catch{
