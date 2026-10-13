@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diagnóstico Digital Gratuito — LocalTECH Company</title>
+<meta name="description" content="6 perguntas rápidas sobre o seu negócio. Descubra, na hora, onde sua operação está deixando dinheiro na mesa sem perceber."/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Diagnóstico Digital Gratuito — LocalTECH Company"/>
+<meta property="og:description" content="6 perguntas rápidas sobre o seu negócio. Descubra, na hora, onde sua operação está deixando dinheiro na mesa sem perceber."/>
+<meta property="og:locale" content="pt_BR"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050505;--sur:rgba(255,255,255,.035);--sur2:#151515;--bdr:rgba(255,255,255,.07);--bdr-h:rgba(123,54,20,.45);
+  --t1:#f0f0f0;--t2:#888;--t3:#444;--p:hsl(20,72%,28%);--pl:hsl(22,68%,42%);--ok:#22c55e;--warn:#F59E0B;--danger:#EF4444;
+  --ff:'Sora',system-ui,sans-serif;--fi:'Playfair Display',serif;--r:12px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);background:var(--bg);color:var(--t1);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+input,select,button{font-family:inherit}
+
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 70% at 50% 20%,#000 10%,transparent 80%)}
+.bg-glow{position:fixed;top:-30%;left:50%;width:900px;height:700px;background:radial-gradient(ellipse at center,rgba(123,54,20,.15) 0%,transparent 65%);pointer-events:none;z-index:0;filter:blur(60px);transform:translateX(-50%)}
+section{position:relative;z-index:1}
+nav,footer{position:relative;z-index:10}
+
+.ac{font-family:var(--fi);font-style:italic;font-weight:700;color:var(--pl)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(5,5,5,.7);border-bottom:1px solid var(--bdr)}
+.nav-i{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:760px;margin:0 auto;padding:0 24px}
+.logo{font-size:.88rem;font-weight:800;letter-spacing:-.01em;text-decoration:none;color:var(--t1)}
+.logo em{font-style:normal;color:var(--pl)}
+.logo-sep{color:var(--bdr);margin:0 6px;font-weight:300}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--p);color:#fff;padding:9px 18px;border-radius:8px;font-size:.75rem;font-weight:700;text-decoration:none;transition:all .25s var(--ease)}
+.nav-cta:hover{background:var(--pl);transform:translateY(-1px);box-shadow:0 8px 24px -4px rgba(123,54,20,.5)}
+
+/* WRAP */
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:118px 24px 100px}
+
+/* progresso */
+.progress-rail{height:4px;background:var(--sur2);border-radius:999px;overflow:hidden;margin-bottom:40px}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--p),var(--pl));transition:width .4s var(--ease)}
+.step-count{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:12px}
+
+/* intro */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pl);background:rgba(123,54,20,.08);border:1px solid rgba(123,54,20,.18);padding:5px 14px;border-radius:999px;margin-bottom:24px}
+.eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--pl);flex-shrink:0}
+h1{font-size:clamp(1.9rem,6vw,2.6rem);font-weight:900;letter-spacing:-.02em;line-height:1.15;margin:0 0 16px}
+.lede{color:var(--t2);font-size:1rem;line-height:1.7;max-width:520px;margin:0 0 36px}
+
+/* steps */
+.step{display:none}
+.step.active{display:block;animation:rise .35s var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.q-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:10px}
+.q-title{font-size:1.3rem;font-weight:800;letter-spacing:-.01em;margin-bottom:24px}
+
+.opt{display:block;width:100%;text-align:left;background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:18px 20px;margin-bottom:12px;color:var(--t1);font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s}
+.opt:hover{border-color:var(--bdr-h);background:rgba(255,255,255,.05)}
+.opt.selected{border-color:var(--pl);background:rgba(123,54,20,.12);box-shadow:0 0 0 1px var(--pl)}
+
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:12px}
+.btn-back{background:none;border:none;color:var(--t2);font-size:.85rem;font-weight:600;cursor:pointer;padding:10px 4px}
+.btn-back:hover{color:var(--t1)}
+
+/* form */
+.field{margin-bottom:20px}
+.field label{display:block;font-size:.8rem;font-weight:600;color:var(--t2);margin-bottom:8px}
+.field input,.field select{width:100%;background:var(--sur2);border:1px solid var(--bdr);border-radius:10px;padding:14px 16px;color:var(--t1);font-size:.95rem}
+.field input:focus,.field select:focus{outline:none;border-color:var(--pl);box-shadow:0 0 0 3px rgba(123,54,20,.15)}
+.field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23888' stroke-width='1.6'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 32px;border-radius:10px;font-weight:700;font-size:.95rem;border:1px solid transparent;cursor:pointer;transition:all .25s var(--ease);width:100%}
+.btn-primary{background:linear-gradient(135deg,var(--p),var(--pl));color:#fff}
+.btn-primary:hover{box-shadow:0 8px 32px -4px rgba(123,54,20,.6);transform:translateY(-2px)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* resultado */
+.result-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;font-weight:800;font-size:.85rem;margin-bottom:20px}
+.band-critico{background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
+.band-medio{background:rgba(245,158,11,.12);color:var(--warn);border:1px solid rgba(245,158,11,.3)}
+.band-bom{background:rgba(34,197,94,.12);color:var(--ok);border:1px solid rgba(34,197,94,.3)}
+
+.score-row{display:flex;align-items:baseline;gap:10px;margin-bottom:28px}
+.score-num{font-family:var(--fi);font-style:italic;font-weight:700;font-size:3.4rem;color:var(--t1)}
+.score-of{color:var(--t2);font-size:1rem}
+
+.result-card{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;padding:28px;margin-bottom:16px}
+.result-card h3{font-size:1rem;font-weight:700;margin:0 0 10px}
+.result-card p{color:var(--t2);font-size:.92rem;line-height:1.65;margin:0}
+.result-card ul{margin:0;padding-left:20px;color:var(--t2);font-size:.92rem;line-height:1.8}
+
+.cta-card{background:var(--sur);border:1px solid rgba(123,54,20,.35);border-radius:16px;padding:28px;margin-top:28px;text-align:center}
+.cta-card h3{font-size:1.15rem;font-weight:800;margin:0 0 10px}
+.cta-card p{color:var(--t2);font-size:.9rem;margin:0 0 20px}
+.wa-link{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--p),var(--pl));color:#fff;text-decoration:none;padding:16px 28px;border-radius:10px;font-weight:700;font-size:.95rem;transition:all .25s}
+.wa-link:hover{box-shadow:0 8px 32px -4px rgba(123,54,20,.6);transform:translateY(-2px)}
+.wa-number{color:var(--t2);font-size:.82rem;margin-top:14px}
+.send-note{font-size:.76rem;color:var(--t3);margin-top:16px}
+
+footer{border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
+.foot-logo{font-size:.82rem;font-weight:800;color:var(--t1);text-decoration:none}
+.foot-logo em{font-style:normal;color:var(--pl)}
+.foot-copy{display:block;color:var(--t3);font-size:.74rem;margin-top:8px}
+
+@media (max-width:480px){
+  .wrap{padding:96px 20px 70px}
+  h1{font-size:1.7rem}
+  .score-num{font-size:2.6rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<nav>
+  <div class="nav-i">
+    <a href="/" class="logo">Local<em>TECH</em><span class="logo-sep">|</span>Company</a>
+    <a href="/#servicos" class="nav-cta">Ver site →</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- INTRO -->
+  <div class="step active" id="step-intro">
+    <span class="eyebrow">LocalTECH · Diagnóstico Gratuito</span>
+    <h1>Sua operação está <span class="ac">pronta pra crescer?</span></h1>
+    <p class="lede">6 perguntas rápidas sobre o seu negócio. No final, você vê exatamente onde está deixando dinheiro na mesa sem perceber — leva menos de 2 minutos.</p>
+    <button class="btn btn-primary" onclick="goTo(1)">Começar diagnóstico</button>
+  </div>
+
+  <!-- PERGUNTAS -->
+  <div class="step" data-step="1">
+    <div class="step-count">Pergunta 1 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-1" style="width:16.6%"></div></div>
+    <div class="q-title">Quando alguém pesquisa no Google pelo que você vende, na sua região, o seu negócio aparece?</div>
+    <button class="opt" data-q="1" data-v="2">Sempre, em primeiro lugar</button>
+    <button class="opt" data-q="1" data-v="1">Às vezes, mas mais pra baixo</button>
+    <button class="opt" data-q="1" data-v="0">Nunca, ou eu nem sei dizer</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(0)">← Voltar</button></div>
+  </div>
+
+  <div class="step" data-step="2">
+    <div class="step-count">Pergunta 2 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-2" style="width:33.3%"></div></div>
+    <div class="q-title">Se você tirasse uma semana de folga agora, o que aconteceria com as vendas?</div>
+    <button class="opt" data-q="2" data-v="2">Continuariam normais, o time sustenta</button>
+    <button class="opt" data-q="2" data-v="1">Cairiam um pouco</button>
+    <button class="opt" data-q="2" data-v="0">Parariam quase totalmente</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(1)">← Voltar</button></div>
+  </div>
+
+  <div class="step" data-step="3">
+    <div class="step-count">Pergunta 3 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-3" style="width:50%"></div></div>
+    <div class="q-title">Hoje, de onde vêm a maioria dos seus clientes novos?</div>
+    <button class="opt" data-q="3" data-v="2">De um canal que eu controlo (anúncio, prospecção ativa)</button>
+    <button class="opt" data-q="3" data-v="1">Indicação, misturado com alguma divulgação</button>
+    <button class="opt" data-q="3" data-v="0">Só de indicação, boca a boca</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(2)">← Voltar</button></div>
+  </div>
+
+  <div class="step" data-step="4">
+    <div class="step-count">Pergunta 4 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-4" style="width:66.6%"></div></div>
+    <div class="q-title">Você sabe dizer quantos contatos recebeu no mês passado, e quantos viraram venda?</div>
+    <button class="opt" data-q="4" data-v="2">Sim, tenho esse número exato</button>
+    <button class="opt" data-q="4" data-v="1">Tenho uma ideia, não exata</button>
+    <button class="opt" data-q="4" data-v="0">Não faço a menor ideia</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(3)">← Voltar</button></div>
+  </div>
+
+  <div class="step" data-step="5">
+    <div class="step-count">Pergunta 5 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-5" style="width:83.3%"></div></div>
+    <div class="q-title">Você sabe quanto precisa investir em divulgação pra conseguir um cliente novo?</div>
+    <button class="opt" data-q="5" data-v="2">Sim, sei o valor médio</button>
+    <button class="opt" data-q="5" data-v="1">Mais ou menos</button>
+    <button class="opt" data-q="5" data-v="0">Nunca calculei isso</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(4)">← Voltar</button></div>
+  </div>
+
+  <div class="step" data-step="6">
+    <div class="step-count">Pergunta 6 de 6</div>
+    <div class="progress-rail"><div class="progress-fill" id="bar-6" style="width:100%"></div></div>
+    <div class="q-title">Seus clientes questionam o seu preço ou pedem desconto?</div>
+    <button class="opt" data-q="6" data-v="2">Raramente, o preço é bem aceito</button>
+    <button class="opt" data-q="6" data-v="1">Às vezes</button>
+    <button class="opt" data-q="6" data-v="0">Com frequência</button>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(5)">← Voltar</button></div>
+  </div>
+
+  <!-- CONTATO -->
+  <div class="step" data-step="7">
+    <span class="q-eyebrow">Quase lá</span>
+    <div class="q-title">Pra onde a gente manda o resultado?</div>
+    <form id="lead-form" novalidate>
+      <div class="field">
+        <label for="f-nome">Nome</label>
+        <input type="text" id="f-nome" required placeholder="Seu nome" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="f-whats">WhatsApp</label>
+        <input type="tel" id="f-whats" required placeholder="(11) 91234-5678" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="f-email">E-mail</label>
+        <input type="email" id="f-email" required placeholder="voce@empresa.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="f-fat">Faturamento mensal aproximado</label>
+        <select id="f-fat" required>
+          <option value="" disabled selected>Selecione uma faixa</option>
+          <option>Até R$10 mil</option>
+          <option>R$10 mil – R$30 mil</option>
+          <option>R$30 mil – R$80 mil</option>
+          <option>Acima de R$80 mil</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" id="submit-btn">Ver meu resultado</button>
+    </form>
+    <div class="nav-row"><button class="btn-back" onclick="goTo(6)">← Voltar</button></div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div class="step" data-step="8">
+    <span class="q-eyebrow" id="r-nome-eyebrow">Seu diagnóstico</span>
+    <span class="result-badge" id="r-badge"></span>
+    <div class="score-row"><span class="score-num" id="r-score">0</span><span class="score-of">de 12 pontos</span></div>
+
+    <div class="result-card">
+      <h3 id="r-title"></h3>
+      <p id="r-desc"></p>
+    </div>
+
+    <div class="result-card">
+      <h3>O que isso custa pra você, todo mês</h3>
+      <ul id="r-bullets"></ul>
+    </div>
+
+    <div class="cta-card">
+      <h3>Quer ver isso resolvido?</h3>
+      <p>A LocalTECH já ajudou negócios locais a sair do improviso pra uma operação com previsibilidade de clientes novos. Chama no WhatsApp e a gente te mostra como, pro seu caso específico.</p>
+      <a class="wa-link" id="wa-link" href="#" target="_blank" rel="noopener">Falar no WhatsApp agora</a>
+      <div class="wa-number">(11) 91048-3076</div>
+      <div class="send-note" id="send-note"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/" class="foot-logo">Local<em>TECH</em> Company</a>
+  <span class="foot-copy">© 2026 LocalTECH Company · Engenharia de Receita</span>
+</footer>
+
+<script>
+(function(){
+  var answers = {};
+  var current = 0;
+
+  function goTo(step){
+    var steps = document.querySelectorAll('.step');
+    steps.forEach(function(s){ s.classList.remove('active'); });
+    var target = step === 0 ? document.getElementById('step-intro') : document.querySelector('.step[data-step="'+step+'"]');
+    if(target){ target.classList.add('active'); }
+    current = step;
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  window.goTo = goTo;
+
+  document.querySelectorAll('.opt').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var q = btn.getAttribute('data-q');
+      var v = parseInt(btn.getAttribute('data-v'), 10);
+      answers[q] = v;
+      document.querySelectorAll('.opt[data-q="'+q+'"]').forEach(function(b){ b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      setTimeout(function(){
+        var next = parseInt(q, 10) + 1;
+        goTo(next);
+      }, 220);
+    });
+  });
+
+  document.getElementById('lead-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var nome = document.getElementById('f-nome').value.trim();
+    var whats = document.getElementById('f-whats').value.trim();
+    var email = document.getElementById('f-email').value.trim();
+    var fat = document.getElementById('f-fat').value;
+    if(!nome || !whats || !email || !fat){ return; }
+
+    var score = 0;
+    for(var i=1;i<=6;i++){ score += (answers[i] || 0); }
+
+    var badge = document.getElementById('r-badge');
+    var title = document.getElementById('r-title');
+    var desc = document.getElementById('r-desc');
+    var bullets = document.getElementById('r-bullets');
+    var eyebrow = document.getElementById('r-nome-eyebrow');
+
+    eyebrow.textContent = 'Diagnóstico de ' + nome.split(' ')[0];
+    document.getElementById('r-score').textContent = score;
+
+    var band, bandClass, bulletList;
+    if(score <= 4){
+      band = 'Operação no limite';
+      bandClass = 'band-critico';
+      title.textContent = 'Sua operação está travada no improviso';
+      desc.textContent = 'Boa parte do que acontece no seu negócio hoje depende de sorte, indicação e da sua presença constante — isso é frágil e tem um teto baixo de crescimento.';
+      bulletList = ['Você provavelmente não sabe quanto custa cada cliente novo', 'Seu faturamento depende de você estar sempre presente', 'Clientes em potencial não te encontram quando procuram'];
+    } else if(score <= 8){
+      band = 'Crescendo no improviso';
+      bandClass = 'band-medio';
+      title.textContent = 'Você já tem base, mas ainda não tem previsibilidade';
+      desc.textContent = 'Parte da sua operação já funciona bem, mas ainda tem peças soltas que travam o próximo salto de faturamento.';
+      bulletList = ['Parte dos seus clientes novos ainda é por sorte, não por sistema', 'Falta clareza sobre o que gastar pra crescer com segurança', 'Seu preço ainda enfrenta mais objeção do que deveria'];
+    } else {
+      band = 'Potencial real, falta estrutura';
+      bandClass = 'band-bom';
+      title.textContent = 'Sua base é sólida — o próximo passo é escalar com controle';
+      desc.textContent = 'Você já resolveu boa parte do básico. O que separa esse estágio do próximo é ter dado e processo pra crescer sem perder a qualidade.';
+      bulletList = ['Ainda dá pra reduzir o custo de cada cliente novo', 'Estruturar o que já funciona evita que o crescimento vire bagunça', 'Falta só transformar o que é intuição em processo repetível'];
+    }
+
+    badge.textContent = band;
+    badge.className = 'result-badge ' + bandClass;
+    bullets.innerHTML = '';
+    bulletList.forEach(function(b){
+      var li = document.createElement('li');
+      li.textContent = b;
+      bullets.appendChild(li);
+    });
+
+    var waMsg = encodeURIComponent('Oi! Acabei de fazer o Diagnóstico Digital da LocalTECH (resultado: ' + band + ', ' + score + '/12 pontos) e quero entender melhor como vocês podem me ajudar.');
+    document.getElementById('wa-link').href = 'https://wa.me/5511910483076?text=' + waMsg;
+
+    goTo(8);
+
+    var sendNote = document.getElementById('send-note');
+    var payload = {source:'diagnostico', name:nome, email:email, phone:whats, revenue:fat, score:score, band:band};
+    fetch('/api/lead', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
+      .then(function(r){ if(!r.ok) throw new Error(); sendNote.textContent = 'Seus dados foram registrados, nosso time já vai te chamar.'; })
+      .catch(function(){ sendNote.textContent = 'Não conseguimos registrar seus dados automaticamente — chama a gente no WhatsApp acima mesmo assim.'; });
+  });
+})();
+</script>
+</body>
+</html>
