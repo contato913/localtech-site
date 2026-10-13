@@ -816,7 +816,11 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
       <p class="cta-p rev d2">30 minutos de diagnóstico. Identificamos os 3 maiores gargalos do seu negócio. Sem proposta genérica. Sem compromisso. Só uma conversa honesta.</p>
 
       <div class="rev d3" style="margin-top:12px;width:100%;max-width:380px">
-        <div id="ctaFormBox">
+        <a href="#" class="btn-cta-main" id="ctaOpenBtn" onclick="return toggleCtaForm(event)">
+          Agendar diagnóstico gratuito
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <div id="ctaFormBox" hidden>
           <form id="ctaLeadForm" onsubmit="submitCtaLead(event)">
             <div class="inp-box" style="margin-bottom:10px">
               <input type="text" id="ctaName" placeholder="Seu nome" required>
@@ -971,6 +975,15 @@ if(mBtn&&mMenu){
 }
 
 /* FORM CTA */
+function toggleCtaForm(e){
+  if(e) e.preventDefault();
+  document.getElementById('ctaOpenBtn').hidden=true;
+  var box=document.getElementById('ctaFormBox');
+  box.hidden=false;
+  var first=document.getElementById('ctaName');
+  if(first) first.focus();
+  return false;
+}
 async function submitCtaLead(e){
   e.preventDefault();
   const btn=document.getElementById('ctaFormBtn');
