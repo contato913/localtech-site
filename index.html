@@ -53,6 +53,7 @@ nav,footer{position:relative;z-index:10}
 .card:hover{border-color:var(--bdr-h);background:rgba(255,255,255,.05)}
 .chip{font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:999px;border:1px solid rgba(123,54,20,.18);color:rgba(123,54,20,.8);background:rgba(123,54,20,.06)}
 .rev{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+[hidden]{display:none!important}
 .rev.on{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
 
@@ -977,9 +978,12 @@ if(mBtn&&mMenu){
 /* FORM CTA */
 function toggleCtaForm(e){
   if(e) e.preventDefault();
-  document.getElementById('ctaOpenBtn').hidden=true;
+  var openBtn=document.getElementById('ctaOpenBtn');
+  openBtn.hidden=true;
+  openBtn.style.display='none';
   var box=document.getElementById('ctaFormBox');
   box.hidden=false;
+  box.style.display='block';
   var first=document.getElementById('ctaName');
   if(first) first.focus();
   return false;
