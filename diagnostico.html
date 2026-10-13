@@ -218,6 +218,10 @@ footer{border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
         <input type="email" id="f-email" required placeholder="voce@empresa.com" autocomplete="email">
       </div>
       <div class="field">
+        <label for="f-empresa">Nome da empresa (opcional)</label>
+        <input type="text" id="f-empresa" placeholder="Sua empresa" autocomplete="organization">
+      </div>
+      <div class="field">
         <label for="f-fat">Faturamento mensal aproximado</label>
         <select id="f-fat" required>
           <option value="" disabled selected>Selecione uma faixa</option>
@@ -300,6 +304,7 @@ footer{border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
     var nome = document.getElementById('f-nome').value.trim();
     var whats = document.getElementById('f-whats').value.trim();
     var email = document.getElementById('f-email').value.trim();
+    var empresa = document.getElementById('f-empresa').value.trim();
     var fat = document.getElementById('f-fat').value;
     if(!nome || !whats || !email || !fat){ return; }
 
@@ -357,7 +362,7 @@ footer{border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
     }
 
     var sendNote = document.getElementById('send-note');
-    var payload = {source:'diagnostico', name:nome, email:email, phone:whats, revenue:fat, score:score, band:band, answers:qa};
+    var payload = {source:'diagnostico', name:nome, email:email, phone:whats, company:empresa||null, revenue:fat, score:score, band:band, answers:qa};
     fetch('/api/lead', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)})
       .then(function(r){ if(!r.ok) throw new Error(); sendNote.textContent = 'Seus dados foram registrados, nosso time já vai te chamar.'; })
       .catch(function(){ sendNote.textContent = 'Não conseguimos registrar seus dados automaticamente — chama a gente no WhatsApp acima mesmo assim.'; });

@@ -827,6 +827,9 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
             <div class="inp-box" style="margin-bottom:10px">
               <input type="email" id="ctaEmail" placeholder="E-mail" required>
             </div>
+            <div class="inp-box" style="margin-bottom:10px">
+              <input type="text" id="ctaCompany" placeholder="Nome da empresa (opcional)">
+            </div>
             <div class="inp-box" style="margin-bottom:14px">
               <select id="ctaRevenue" required>
                 <option value="" disabled selected>Faturamento mensal aproximado</option>
@@ -974,13 +977,14 @@ async function submitCtaLead(e){
   const name=document.getElementById('ctaName').value.trim();
   const phone=document.getElementById('ctaPhone').value.trim();
   const email=document.getElementById('ctaEmail').value.trim();
+  const company=document.getElementById('ctaCompany').value.trim();
   const revenue=document.getElementById('ctaRevenue').value;
   const website=document.getElementById('ctaWebsite').value;
   if(!name||!phone||!email||!revenue)return alert('Preencha nome, WhatsApp, e-mail e faturamento.');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return alert('E-mail inválido.');
   btn.disabled=true;btn.textContent='Enviando...';
   try{
-    const r=await fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'institucional',name,phone,email,revenue,website})});
+    const r=await fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'institucional',name,phone,email,company:company||null,revenue,website})});
     if(!r.ok)throw new Error();
     document.getElementById('ctaFormBox').innerHTML='<div style="text-align:center;padding:16px 0"><p style="font-size:.85rem;font-weight:600;color:var(--t1)">Recebido! Chamamos você no WhatsApp em breve.</p></div>';
   }catch{
