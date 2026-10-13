@@ -110,17 +110,19 @@ function buildLandingPageTask(body) {
 function buildInstitucionalTask(body) {
   const name = String(body.name || '').trim();
   const phone = String(body.phone || '').trim();
-  const company = String(body.company || '').trim();
+  const email = String(body.email || '').trim();
+  const revenue = String(body.revenue || '').trim();
 
-  if (!name || !phone) throw new Error('missing_required_fields');
+  if (!name || !phone || !email) throw new Error('missing_required_fields');
 
   const description = [
     '**Origem:** Site institucional',
-    company ? `**Empresa:** ${company}` : null,
+    `**E-mail:** ${email}`,
+    revenue ? `**Faturamento aproximado:** ${revenue}` : null,
   ].filter(Boolean).join('\n');
 
   return {
-    name: company ? `${name} (${company})` : name,
+    name,
     description,
     custom_fields: [
       { id: FIELDS.telefone, value: normalizePhone(phone) },
