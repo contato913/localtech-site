@@ -110,13 +110,17 @@ function buildLandingPageTask(body) {
 function buildInstitucionalTask(body) {
   const name = String(body.name || '').trim();
   const phone = String(body.phone || '').trim();
+  const email = String(body.email || '').trim();
   const company = String(body.company || '').trim();
+  const revenue = String(body.revenue || '').trim();
 
-  if (!name || !phone) throw new Error('missing_required_fields');
+  if (!name || !phone || !email) throw new Error('missing_required_fields');
 
   const description = [
     '**Origem:** Site institucional',
+    `**E-mail:** ${email}`,
     company ? `**Empresa:** ${company}` : null,
+    revenue ? `**Faturamento aproximado:** ${revenue}` : null,
   ].filter(Boolean).join('\n');
 
   return {
@@ -134,6 +138,7 @@ function buildDiagnosticoTask(body) {
   const email = String(body.email || '').trim();
   const phone = String(body.phone || '').trim();
   const revenue = String(body.revenue || '').trim();
+  const company = String(body.company || '').trim();
   const score = Number.isFinite(+body.score) ? +body.score : null;
   const band = String(body.band || '').trim();
   const answers = Array.isArray(body.answers) ? body.answers : [];
@@ -152,6 +157,7 @@ function buildDiagnosticoTask(body) {
   const description = [
     '**Origem:** Diagnóstico Digital (site)',
     `**E-mail:** ${email}`,
+    company ? `**Empresa:** ${company}` : null,
     revenue ? `**Faturamento aproximado:** ${revenue}` : null,
     score !== null ? `**Pontuação do diagnóstico:** ${score}/12` : null,
     band ? `**Resultado:** ${band}` : null,
@@ -159,7 +165,7 @@ function buildDiagnosticoTask(body) {
   ].filter(Boolean).join('\n');
 
   return {
-    name,
+    name: company ? `${name} (${company})` : name,
     description,
     status: DIAGNOSTICO_STATUS,
     custom_fields: [
