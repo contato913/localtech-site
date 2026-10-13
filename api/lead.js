@@ -2,6 +2,7 @@
 // Vendas > Pipeline Principal no ClickUp. Token nunca fica no client.
 
 const CLICKUP_LIST_ID = '901715489707'; // Vendas > Pipeline Principal
+const DIAGNOSTICO_STATUS = 'diagnóstico preenchido'; // status criado manualmente, antes de "novo lead"
 
 // IDs dos campos personalizados da Pipeline Principal (ver Ecossistema ClickUp - LocalTECH.md)
 const FIELDS = {
@@ -135,8 +136,18 @@ function buildDiagnosticoTask(body) {
   const revenue = String(body.revenue || '').trim();
   const score = Number.isFinite(+body.score) ? +body.score : null;
   const band = String(body.band || '').trim();
+  const answers = Array.isArray(body.answers) ? body.answers : [];
 
   if (!name || !email || !phone) throw new Error('missing_required_fields');
+
+  const respostas = answers
+    .map((qa) => {
+      const q = String((qa && qa.question) || '').trim();
+      const a = String((qa && qa.answer) || '').trim();
+      return q && a ? `- *${q}*\n  → ${a}` : null;
+    })
+    .filter(Boolean)
+    .join('\n');
 
   const description = [
     '**Origem:** Diagnóstico Digital (site)',
@@ -144,11 +155,13 @@ function buildDiagnosticoTask(body) {
     revenue ? `**Faturamento aproximado:** ${revenue}` : null,
     score !== null ? `**Pontuação do diagnóstico:** ${score}/12` : null,
     band ? `**Resultado:** ${band}` : null,
+    respostas ? `\n**Respostas do diagnóstico:**\n${respostas}` : null,
   ].filter(Boolean).join('\n');
 
   return {
     name,
     description,
+    status: DIAGNOSTICO_STATUS,
     custom_fields: [
       { id: FIELDS.telefone, value: normalizePhone(phone) },
       { id: FIELDS.leadSource, value: LEAD_SOURCE_OPTIONS.organico },
