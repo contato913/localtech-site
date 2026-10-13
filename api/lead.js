@@ -51,6 +51,8 @@ module.exports = async function handler(req, res) {
       task = buildIndicacaoTask(body);
     } else if (body.source === 'institucional') {
       task = buildInstitucionalTask(body);
+    } else if (body.source === 'diagnostico') {
+      task = buildDiagnosticoTask(body);
     } else {
       res.status(400).json({ error: 'invalid_source' });
       return;
@@ -118,6 +120,34 @@ function buildInstitucionalTask(body) {
 
   return {
     name: company ? `${name} (${company})` : name,
+    description,
+    custom_fields: [
+      { id: FIELDS.telefone, value: normalizePhone(phone) },
+      { id: FIELDS.leadSource, value: LEAD_SOURCE_OPTIONS.organico },
+    ],
+  };
+}
+
+function buildDiagnosticoTask(body) {
+  const name = String(body.name || '').trim();
+  const email = String(body.email || '').trim();
+  const phone = String(body.phone || '').trim();
+  const revenue = String(body.revenue || '').trim();
+  const score = Number.isFinite(+body.score) ? +body.score : null;
+  const band = String(body.band || '').trim();
+
+  if (!name || !email || !phone) throw new Error('missing_required_fields');
+
+  const description = [
+    '**Origem:** Diagnóstico Digital (site)',
+    `**E-mail:** ${email}`,
+    revenue ? `**Faturamento aproximado:** ${revenue}` : null,
+    score !== null ? `**Pontuação do diagnóstico:** ${score}/12` : null,
+    band ? `**Resultado:** ${band}` : null,
+  ].filter(Boolean).join('\n');
+
+  return {
+    name,
     description,
     custom_fields: [
       { id: FIELDS.telefone, value: normalizePhone(phone) },
