@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LocalTECH Company — Engenharia de Receita</title>
-<meta name="description" content="Instalamos máquinas de vendas em negócios locais. Diagnóstico, processos, demanda e indicadores — da improvisação ao crescimento estruturado."/>
+<title>LocalTECH | Assessoria de Marketing e Vendas para Negócios Locais</title>
+<meta name="description" content="Assessoria de marketing e vendas para negócios locais: tráfego pago, Google Meu Negócio, criação de sites, CRM e processos comerciais. Atendemos todo o Brasil e Portugal. Agende um diagnóstico gratuito."/>
 <!-- Open Graph / SEO -->
 <meta property="og:type" content="website"/>
-<meta property="og:title" content="LocalTECH Company — Engenharia de Receita"/>
+<meta property="og:title" content="LocalTECH | Assessoria de Marketing e Vendas para Negócios Locais"/>
 <meta property="og:description" content="Paramos de improvisar e instalamos um sistema completo de geração de receita. Posicionamento, processos, demanda e indicadores para negócios locais."/>
 <meta property="og:url" content="https://www.localtechbr.com/"/>
 <meta property="og:site_name" content="LocalTECH Company"/>
@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="LocalTECH Company — Engenharia de Receita"/>
 <meta property="og:locale" content="pt_BR"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="LocalTECH Company — Engenharia de Receita"/>
+<meta name="twitter:title" content="LocalTECH | Assessoria de Marketing e Vendas para Negócios Locais"/>
 <meta name="twitter:description" content="Da improvisação ao crescimento estruturado. Instalamos máquinas de vendas em negócios locais."/>
 <meta name="twitter:image" content="https://www.localtechbr.com/assets/og-localtech.png"/>
 <meta name="robots" content="index, follow"/>
@@ -36,7 +36,8 @@
   "image": "https://www.localtechbr.com/assets/og-localtech.png",
   "telephone": "+5511910483076",
   "email": "contato@localtechbr.com",
-  "areaServed": { "@type": "Country", "name": "Brasil" },
+  "areaServed": [{ "@type": "Country", "name": "Brasil" }, { "@type": "Country", "name": "Portugal" }],
+  "address": { "@type": "PostalAddress", "addressRegion": "SP", "addressCountry": "BR" },
   "knowsAbout": ["Engenharia de Receita", "Marketing de performance", "Tráfego pago", "Processos comerciais", "CRM", "Google Meu Negócio", "Criação de sites"]
 }
 </script>
@@ -218,6 +219,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;backdrop-filter:blur(20px);-
 .srv-top h2{font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:12px}
 .srv-top p{font-size:.85rem;color:var(--t2);font-weight:300;max-width:400px;margin:0 auto}
 .srv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(min-width:1100px){.srv-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:901px) and (max-width:1099px){.srv-grid{grid-template-columns:repeat(2,1fr)}}
+#portfolio{padding:128px 0;border-top:1px solid var(--bdr)}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pf-card{display:flex;flex-direction:column;overflow:hidden;text-decoration:none;color:inherit}
+.pf-img{position:relative;aspect-ratio:1200/630;overflow:hidden;border-bottom:1px solid var(--bdr)}
+.pf-img img{position:absolute;inset:0;width:100%!important;height:100%!important;max-width:none;object-fit:cover;transition:transform .6s var(--ease)}
+.pf-card:hover .pf-img img{transform:scale(1.03)}
+.pf-body{padding:22px 24px 24px;position:relative;background:var(--bg)}
+.pf-tag{display:block;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--pm);margin-bottom:8px}
+.pf-card h3{font-size:1rem;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.pf-link{font-size:.75rem;color:var(--t2);transition:color .3s var(--ease)}
+.pf-card:hover .pf-link{color:var(--pl)}
+@media(max-width:900px){.pf-grid{grid-template-columns:1fr}}
 .srv-card{padding:30px;cursor:default;position:relative;overflow:hidden}
 .srv-card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--p),var(--pl));opacity:0;transition:opacity .3s var(--ease)}
 .srv-card:hover::after{opacity:1}
@@ -367,7 +382,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
   .tec-hub{width:64px;height:64px;font-size:.52rem}
   .tec-node{width:50px;height:50px;font-size:.36rem}
   .tec-node svg{width:16px;height:16px}
-  #problema,#calculadora,#funil,#metodologia,#servicos,#ferramentas,#depoimentos,#sobre,#faq{padding:80px 0}
+  #problema,#calculadora,#funil,#metodologia,#servicos,#ferramentas,#portfolio,#depoimentos,#sobre,#faq{padding:80px 0}
   #manifesto,#cta{padding:100px 0}
   footer .foot-i{flex-direction:column;text-align:center;gap:20px}
   .foot-links{justify-content:center;flex-wrap:wrap;gap:12px}
@@ -391,6 +406,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
       <li><a href="#calculadora">Calculadora</a></li>
       <li><a href="#metodologia">Metodologia</a></li>
       <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#sobre">Sobre</a></li>
       <li><a href="/indicacao">Indicações</a></li>
@@ -405,6 +421,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
       <a href="#calculadora">Calculadora</a>
       <a href="#metodologia">Metodologia</a>
       <a href="#servicos">Serviços</a>
+      <a href="#portfolio">Portfólio</a>
       <a href="#faq">FAQ</a>
       <a href="#sobre">Sobre</a>
       <a href="/indicacao">Indicações</a>
@@ -416,13 +433,13 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
 <section id="hero">
   <div class="hero-inner">
     <div>
-      <div class="eyebrow" style="margin-bottom:32px">Engenharia de Receita</div>
+      <div class="eyebrow" style="margin-bottom:32px">Engenharia de Receita · Assessoria de marketing e vendas</div>
       <h1 class="hero-h">
         <span class="line"><span>Crescimento</span></span>
         <span class="line"><span>não acontece</span></span>
         <span class="line"><span>por <span class="ac">acaso.</span></span></span>
       </h1>
-      <p class="hero-sub rev">Instalamos máquinas de vendas em negócios locais. <strong>Do diagnóstico ao fechamento</strong> — com estratégia, processos, tecnologia e responsabilidade pelo resultado.</p>
+      <p class="hero-sub rev"><strong>Assessoria de marketing e vendas para negócios locais.</strong> Instalamos máquinas de vendas que funcionam. <strong>Do diagnóstico ao fechamento</strong> — com estratégia, processos, tecnologia e responsabilidade pelo resultado.</p>
       <div class="hero-btns rev d1">
         <a href="/diagnostico" class="btn-p">
           Agendar diagnóstico
@@ -604,11 +621,13 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
     <div class="srv-top"><h2 class="rev">Tudo que gera <span class="ac">crescimento real.</span></h2><p class="rev d1">Ferramentas são meio. O produto final é crescimento estruturado.</p></div>
     <div class="srv-grid">
       <div class="srv-card card rev"><div class="srv-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><h3>Diagnóstico Cirúrgico</h3><p>Imersão completa. Relatório de gargalos + roadmap personalizado de ação. Base de tudo.</p><span class="srv-badge">Passo 1 sempre</span></div>
-      <div class="srv-card card rev d1"><div class="srv-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Tráfego Pago</h3><p>Meta Ads, Google Ads e TikTok com foco em conversão real. Otimização semanal, relatório mensal.</p><span class="srv-badge">ROI mensurável</span></div>
+      <div class="srv-card card rev d1"><div class="srv-ico"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Gestão de Tráfego Pago</h3><p>Meta Ads, Google Ads e TikTok com foco em conversão real. Otimização semanal, relatório mensal.</p><span class="srv-badge">ROI mensurável</span></div>
       <div class="srv-card card rev d2"><div class="srv-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Treinamento Comercial</h3><p>SPIN, tonalidade e objeções. Playbook personalizado para o time fechar mais e melhor.</p><span class="srv-badge">Time que fecha</span></div>
       <div class="srv-card card rev d3"><div class="srv-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>CRM e Automações</h3><p>Funis automáticos, follow-up e tags. O lead entra no processo — o processo trabalha 24h.</p><span class="srv-badge">Sem lead esfriar</span></div>
       <div class="srv-card card rev d4"><div class="srv-ico"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><h3>Dashboard de BI</h3><p>Indicadores em tempo real. Rituais semanais de gestão. Decisões baseadas em dados.</p><span class="srv-badge">Clareza total</span></div>
       <div class="srv-card card rev d5"><div class="srv-ico"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Processos Comerciais</h3><p>SDR, scripts e fluxos replicáveis. A empresa que cresce mesmo quando o dono não está.</p><span class="srv-badge">Independência</span></div>
+      <div class="srv-card card rev d1"><div class="srv-ico"><svg viewBox="0 0 24 24"><path d="M12 22s-7-6.2-7-12a7 7 0 0114 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></div><h3>Google Meu Negócio</h3><p>Perfil da Empresa otimizado para aparecer no Google Maps e nas buscas de quem procura o seu serviço na região.</p><span class="srv-badge">Cliente local</span></div>
+      <div class="srv-card card rev d2"><div class="srv-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><circle cx="5.5" cy="6.5" r=".5"/><circle cx="8" cy="6.5" r=".5"/></svg></div><h3>Criação de Sites</h3><p>Sites rápidos, preparados para aparecer no Google e levar o cliente direto para o WhatsApp.</p><span class="srv-badge">Pronto para vender</span></div>
     </div>
   </div>
 </section>
@@ -712,9 +731,21 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
   </div>
 </section>
 
+<section id="portfolio">
+  <div class="wrap">
+    <span class="sec-lbl rev">08 — PORTFÓLIO</span>
+    <div class="srv-top"><h2 class="rev">Sites que já estão <span class="ac">vendendo.</span></h2><p class="rev d1">Criação de sites para negócios locais — no ar, no Google e levando clientes para o WhatsApp.</p></div>
+    <div class="pf-grid">
+      <a class="pf-card card rev" href="https://www.studiomilabeauty.com/" target="_blank" rel="noopener"><div class="pf-img"><img src="assets/portfolio/studio-mila-beauty.jpg" alt="Site do Studio Mila Beauty, salão de beleza em Santo André" loading="lazy" width="1200" height="630"/></div><div class="pf-body"><span class="pf-tag">Salão de beleza · Santo André, SP</span><h3>Studio Mila Beauty</h3><span class="pf-link">studiomilabeauty.com ↗</span></div></a>
+      <a class="pf-card card rev d1" href="https://www.suafestanossossonhos.com/" target="_blank" rel="noopener"><div class="pf-img"><img src="assets/portfolio/sua-festa-nossos-sonhos.jpg" alt="Catálogo online da Sua Festa, Nossos Sonhos, kits de decoração de festas" loading="lazy" width="1200" height="630"/></div><div class="pf-body"><span class="pf-tag">Decoração de festas · São Caetano do Sul, SP</span><h3>Sua Festa, Nossos Sonhos</h3><span class="pf-link">suafestanossossonhos.com ↗</span></div></a>
+      <a class="pf-card card rev d2" href="https://handymanmarcelocarvalho.com/" target="_blank" rel="noopener"><div class="pf-img"><img src="assets/portfolio/handyman-marcelo-carvalho.jpg" alt="Site do Handyman Marcelo Carvalho, reparações em Lagos, Portugal" loading="lazy" width="1200" height="630"/></div><div class="pf-body"><span class="pf-tag">Reparações e manutenção · Lagos, Portugal</span><h3>Handyman Marcelo Carvalho</h3><span class="pf-link">handymanmarcelocarvalho.com ↗</span></div></a>
+    </div>
+  </div>
+</section>
+
 <section id="depoimentos">
   <div class="wrap">
-    <span class="sec-lbl rev">08 — RESULTADOS REAIS</span>
+    <span class="sec-lbl rev">09 — RESULTADOS REAIS</span>
     <div class="sec-head rev d1" style="max-width:560px;margin-bottom:56px">
       <h2 style="font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.15;margin-bottom:12px">Empresas que pararam de <span class="ac">improvisar</span></h2>
       <p style="font-size:.85rem;color:var(--t2);font-weight:300;line-height:1.85">Resultados reais de negócios que passaram pela Engenharia de Receita.</p>
@@ -759,7 +790,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
 
 <section id="sobre">
   <div class="wrap">
-    <span class="sec-lbl rev">09 — QUEM SOMOS</span>
+    <span class="sec-lbl rev">10 — QUEM SOMOS</span>
     <div class="sobre-grid">
       <div class="sobre-imgw rev">
         <div class="sobre-img-inner">
@@ -771,7 +802,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
         <div class="eyebrow rev">LocalTECH Company</div>
         <h2 class="rev d1">Nascemos por<br/><span class="ac">inconformismo.</span></h2>
         <p class="rev d2">Existem milhares de empresários que colocaram seus sonhos dentro de um negócio — e são tratados como apenas mais um contrato. Sem atenção real, sem responsabilidade genuína com resultado.</p>
-        <p class="rev d3">Somos uma <strong style="color:var(--t1);font-weight:600">assessoria de crescimento</strong> que combina estratégia, processos e tecnologia. Diagnóstico honesto antes de qualquer proposta. Contratos apenas quando há fit real.</p>
+        <p class="rev d3">Somos uma <strong style="color:var(--t1);font-weight:600">assessoria de marketing e vendas para negócios locais</strong> que combina estratégia, processos e tecnologia — com base em São Paulo e clientes em todo o Brasil e em Portugal. Diagnóstico honesto antes de qualquer proposta. Contratos apenas quando há fit real.</p>
         <div class="vals rev d4">
           <span class="val">Lealdade</span><span class="val">Transparência</span><span class="val">Excelência</span><span class="val">Disciplina</span><span class="val">Resultado</span><span class="val">Simplicidade</span>
         </div>
@@ -784,7 +815,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
   <div class="wrap">
     <div class="faq-wrap">
       <div style="text-align:center;margin-bottom:56px">
-        <span class="sec-lbl rev" style="display:block;text-align:center;margin-bottom:16px">10 — PERGUNTAS FREQUENTES</span>
+        <span class="sec-lbl rev" style="display:block;text-align:center;margin-bottom:16px">11 — PERGUNTAS FREQUENTES</span>
         <h2 class="rev d1" style="font-size:clamp(1.9rem,3vw,2.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.15">Tire suas <span class="ac">dúvidas</span></h2>
       </div>
       <div class="faq-item rev d2">
@@ -796,10 +827,31 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
       </div>
       <div class="faq-item rev d2">
         <button class="faq-q" onclick="toggleFaq(this)">
-          <span class="faq-q-text">Como funciona o investimento na assessoria?</span>
+          <span class="faq-q-text">Quanto custa uma assessoria de marketing?</span>
           <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
         </button>
         <div class="faq-a"><div class="faq-a-inner">Não trabalhamos com pacotes genéricos. O escopo e o investimento são definidos individualmente — <strong>a partir do diagnóstico</strong>, não antes dele. Primeiro entendemos o seu negócio, mapeamos os gargalos reais e construímos uma proposta que faz sentido para o seu momento. Nenhum compromisso antes disso.</div></div>
+      </div>
+      <div class="faq-item rev d2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Que tipo de negócio vocês atendem?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Negócios locais e de serviço que vendem pelo WhatsApp, pelo Instagram e pelo Google: <strong>salões de beleza, clínicas de estética, pet shops, decoração de festas, prestadores de serviço</strong>, lojas e empresas que atendem uma região. Se o seu cliente procura você na internet antes de comprar, a Engenharia de Receita se aplica ao seu negócio.</div></div>
+      </div>
+      <div class="faq-item rev d2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Vocês atendem em qual região?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Nossa base é <strong>São Paulo</strong>, mas o trabalho é feito de forma online e atendemos negócios em <strong>todo o Brasil e também em Portugal</strong>. As reuniões, o acompanhamento e os relatórios funcionam a distância, sem perder a proximidade.</div></div>
+      </div>
+      <div class="faq-item rev d2">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">Vocês fazem Google Meu Negócio e criação de sites?</span>
+          <span class="faq-icon"><svg viewBox="0 0 12 12"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">Sim. Otimizamos o <strong>Perfil da Empresa no Google (Google Meu Negócio)</strong> para o seu negócio aparecer no Google Maps e nas buscas da região, e <strong>criamos sites</strong> rápidos, preparados para o Google e com o caminho direto para o seu WhatsApp. Os dois entram no sistema de receita junto com tráfego, processos e indicadores.</div></div>
       </div>
       <div class="faq-item rev d3">
         <button class="faq-q" onclick="toggleFaq(this)">
@@ -889,6 +941,7 @@ footer{border-top:1px solid var(--bdr);padding:28px 0}
     <div class="foot-links" style="align-items:center">
       <a href="#metodologia">Metodologia</a>
       <a href="#servicos">Serviços</a>
+      <a href="#portfolio">Portfólio</a>
       <a href="#faq">FAQ</a>
       <a href="#sobre">Sobre</a>
       <a href="/indicacao">Indicações</a>
