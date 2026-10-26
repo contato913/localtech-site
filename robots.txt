@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /indicacao
+
+Sitemap: https://www.localtechbr.com/sitemap.xml
